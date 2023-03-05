@@ -363,5 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 #api keys
-.env
 client/.env
