@@ -1,0 +1,106 @@
+@font-face {
+    font-family: 'Poppins';
+    src: url(../Fonts/Poppins-Regular.ttf);
+}
+
+
+.elementContener > :last-child{
+    margin-left: 50px;
+}
+
+.loginData{
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    margin-left: 5px;
+    align-self: center;
+}
+
+.loginData >*{
+    margin: 10px;
+}
+
+.signUp{
+    color: darkgray;
+    font-size: 1rem;
+    margin-top: -10px;
+}
+
+.signUp > a{
+    color: #E14D2A;
+    font-weight: bold;
+}
+
+.loginElemnets{
+    display: flex;
+    flex-direction: column;
+}
+
+.loginElemnets > :first-child{
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.loginBtn{
+    height: 3rem;
+    border: none;
+    cursor: pointer;
+    background-color: #E14D2A;
+    border-radius: 8px;
+    font-family: 'Poppins';
+    font-size: 1.1rem;
+    color: #f8f8ff;
+}
+
+.loginBtn:hover{
+    background-color: #e45f3f;
+}
+
+.loginImg{
+    width: 35rem;
+    height: 35rem;
+}
+
+.outsidesingin{
+    margin-top: 0px;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.outsidesingin p{
+    border-bottom: 1px solid #000; 
+    line-height: 0.1em;
+}
+
+.outsidesingin p span{
+    background:#f8f8ff; 
+    padding:0 10px; 
+}
+
+
+.outsideSingInBtns > :last-child{
+    margin-left: 5px;
+}
+
+
+.borderBtm{
+    background-color: #E14D2A;
+    width: 5rem;
+    height: 2px;
+    transition: 0.5s ease-in-out;
+}
+
+.SignInDataInput:focus + .borderBtm , .filledData{
+    width: 20rem;
+}
+
+.SignInDataInput{
+    font-family: 'Poppins';
+    width: 20rem;
+    height: 2rem;
+    border: none;
+    background: none;
+    outline: none;
+    color: black;
+    border-bottom: 0px;
+}

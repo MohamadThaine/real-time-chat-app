@@ -1,0 +1,22 @@
+.content{
+    display: flex;
+    flex-direction: column;
+    min-width: 25vw;
+}
+
+.content > * {
+    margin: 10px;
+}
+
+.content > :first-child{
+    align-self: center;
+}
+
+.descriptionInput{
+    min-height: 10rem;
+}
+
+.reportStatus{
+    align-self: center;
+    font-size: 0.8rem;
+}

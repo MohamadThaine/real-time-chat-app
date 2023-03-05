@@ -1,0 +1,216 @@
+@font-face {
+    font-family: 'Poppins';
+    src: url(../Fonts/Poppins-Regular.ttf);
+}
+
+html{
+    height: 100%;
+}
+
+body{
+    height:100%;
+}
+
+.chatsContener{
+    position: relative;
+    display: flex;
+    color: black;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+    border-radius: 12px;
+    padding-right: 50px;
+    background-color: #f8f8ff;
+    height: 70rem;
+    width: 110rem;
+    
+}
+
+.chatsContener::before{
+    content: '';
+    display: block;
+    height: 70rem;
+    width: 1px;
+    background: #000;
+    left: 22%;
+    position: absolute;
+}
+
+.chats{
+    margin-left: -5px;
+}
+
+.tools{
+   position: absolute;
+   bottom: 10px;
+   left: 20px;
+}
+
+.tools button{
+    cursor: pointer;
+    background-color: transparent;
+    border: transparent;
+}
+
+.tools button img{
+    width: 50px;
+    height: 50px;
+}
+
+.profile{
+    display: flex;
+    align-items: center;
+    min-width: 15.4vw;
+    border-bottom: 1px dotted black;
+    padding-bottom: 10px;
+}
+
+.profile > :last-child{
+    margin-left: 10px;
+}
+
+.chat{
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-width: 24.5rem;
+    border-bottom: 1px solid black;
+}
+
+.chat img , .profile img{
+    width: 50px;
+    height: 50px;
+    border: 2px solid black;
+    border-radius: 90px;
+}
+
+.chat:hover{
+    background-color: lightgray;
+}
+
+.LastMesssage > *{
+    margin: 10px;
+}
+
+.opened{
+    background-color: #e2e0e0 ;
+}
+
+.opened:hover{
+    background-color: #e2e0e0 ;
+}
+
+.openedChat{
+    margin-left: 10px;
+    width: 100rem;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+}
+
+.messages{
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    overflow-y:auto;
+}
+
+.recivedMessage , .sentMessage{
+    display: flex;
+    align-items: center;
+    margin-top: auto;
+    padding-bottom: 10px;
+    padding-right: 20px;
+}
+
+.personimg{
+    margin-left: 3px;
+    width: 40px;
+    height: 40px;
+    border-radius: 90px;
+    border: 0.5px solid black;
+}
+
+.recivedMessage > :last-child , .sentMessage > :last-child{
+    margin-left: 10px;
+}
+
+.messagecontent{
+    display: inline-block;
+    background-color: #E14D2A;
+    color: black;
+    width: fit-content;
+    max-width: 400px;
+    border-radius: 25px;
+    margin-left: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: fit-content;
+}
+
+
+
+.messagecontent > :last-child{
+    margin-left: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.messagecontent img{
+    max-width: 400px;
+    max-height: 400px;
+    border-radius: 30px;
+    padding-top: 10px;
+    
+}
+
+.recived {
+    background-color: #d8d6d6;
+}
+
+.sentMessage{
+    margin-left: auto;
+}
+
+.chatTool{
+    border-top: 1px solid black;
+    padding-top: 10px;
+    margin-top: 10px;
+    display: flex;
+}
+
+.chatTool button{
+    background-color: transparent;
+    border: transparent;
+}
+
+.chatTool img{
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+}
+
+.chatTool input{
+    width: 100%;
+    height: 82%;
+    align-self: center;
+    border-radius: 24px;
+    outline: none;
+    font-family: 'Poppins';
+    background-color: #E14D2A;
+    border: none;
+    font-weight: bolder;
+    border: 1px solid black;
+}
+
+.chatTool input::placeholder{
+    color: black;
+}
+
+.chatTool > :last-child{
+    margin-left: 10px;
+}

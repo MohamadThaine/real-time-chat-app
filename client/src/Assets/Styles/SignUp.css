@@ -1,0 +1,153 @@
+.signUpData{
+    display: flex;
+    flex-direction: column;
+}
+
+.title{
+    display: flex;
+    font-size: larger;
+    flex-direction: column;
+    color: black;
+    margin-left: 5px;
+    width: fit-content;
+}
+
+.signUpdata{
+    display: flex;
+    flex-direction: row;
+    border-radius: 8px;
+    margin-left: 5px;
+    margin-top: 110px;
+    margin-left: -320px;
+}
+
+.signUpdata > :first-child{
+    margin-left: 60px;
+}
+
+.signUpdata > :last-child{
+    margin-left: 100px;
+}
+
+.Sections > *{
+    margin-top: 30px;
+}
+
+.signIn{
+    color: darkgray;
+    font-size: 0.87rem;
+    margin-top: -5px;
+
+}
+
+.signIn > a{
+    color: #E14D2A;
+    font-weight: bold;
+}
+
+.signUpElemnets{
+    display: flex;
+    flex-direction: column;
+}
+
+.signUpElemnets > :first-child{
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.SignUpBtn{
+    position: absolute;
+    top: 88%;
+    left: 21%;
+    height: 3rem;
+    width: 25rem;
+    border: none;
+    cursor: pointer;
+    background-color: #E14D2A;
+    border-radius: 8px;
+    font-family: 'Poppins';
+    font-size: 1.5rem;
+    color: #f8f8ff;
+}
+
+.SignUpBtn:hover{
+    background-color: #e45f3f;
+}
+
+.SignUpDataInput{
+    background-color: #fcfcfb;
+    border: 0.5px solid gray;
+    width: 18rem;
+    height: 2.5rem;
+    font-size: 17px;
+    font-family: 'Poppins';
+    border-radius: 8px;
+    
+}
+
+.SignUpDataInput:focus::placeholder{
+    transition: 200ms ease-in-out;
+    position: absolute;
+    left: 4px;
+    font-size: 10px;
+    font-weight: bold;
+    color: black;
+}
+
+.SignUpDataInput::placeholder{
+    transition: 200ms ease-in;
+    font-size: 17px;
+}
+
+.sex{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.sex > :first-child{
+    margin-right: 10px;
+}
+
+.sex > *{
+    width: 20px;
+}
+.sex > input{
+    margin-left: 20px;
+}
+
+.outsideSignUp{
+    display: flex;
+}
+
+.outsideSignUp > *{
+    
+    margin-left: 10px;
+}
+
+.outsideSignUpBtns{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding-left: 50px;
+}
+
+.outsideSignUpBtns > *{
+    margin: 15px;
+}
+
+.line{
+    width: 1px;
+    height: 100%;
+    margin-left: 10px;
+    background-color: black;
+}
+
+.signUpTitle{
+    cursor:auto;
+    background-color: transparent;
+    color: black;
+}
+
+
