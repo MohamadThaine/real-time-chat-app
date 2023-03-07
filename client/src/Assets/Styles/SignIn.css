@@ -5,7 +5,7 @@
 
 
 .elementContener > :last-child{
-    margin-left: 50px;
+    margin-left: 80px;
 }
 
 .loginData{
@@ -27,7 +27,7 @@
 }
 
 .signUp > a{
-    color: #E14D2A;
+    color: #FF5C35;
     font-weight: bold;
 }
 
@@ -45,7 +45,7 @@
     height: 3rem;
     border: none;
     cursor: pointer;
-    background-color: #E14D2A;
+    background-color: #FF5C35;
     border-radius: 8px;
     font-family: 'Poppins';
     font-size: 1.1rem;
@@ -59,6 +59,7 @@
 .loginImg{
     width: 35rem;
     height: 35rem;
+    margin-top: 50px;
 }
 
 .outsidesingin{
@@ -84,7 +85,7 @@
 
 
 .borderBtm{
-    background-color: #E14D2A;
+    background-color: #FF5C35;
     width: 5rem;
     height: 2px;
     transition: 0.5s ease-in-out;

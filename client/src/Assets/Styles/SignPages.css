@@ -13,7 +13,7 @@ html{
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: #E14D2A;
+    background-color: #FF5C35;
     border-radius: 25px;
 }
 
@@ -22,7 +22,7 @@ html{
 }
 
 .wrapper{
-    background-color: #E14D2A;
+    background-color: #FF5C35;
     position:absolute;
     top:0;
     left:0;

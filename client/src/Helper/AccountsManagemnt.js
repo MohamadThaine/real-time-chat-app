@@ -17,6 +17,7 @@ import {  getFirestore,
 import { useNavigate } from 'react-router-dom';
 import SignIn from '../Pages/SignIn';
 import ChatPage from '../Pages/ChatPage';
+import { useEffect } from 'react';
 
 const firebaseConfig = {
     apiKey: process.env.React_APP_Firebase_API_KEY,
@@ -94,6 +95,20 @@ export async function SignInWithEmail(email, password, username){
 
 export async function SignOut(){
   auth.signOut();
+}
+
+export function CheckAuth(){
+  const navigate = useNavigate();
+  useEffect(()=>{
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+          navigate('/')
+        } else {
+          navigate('/')
+        }
+      });
+     
+  }, [])
 }
 
 export default null

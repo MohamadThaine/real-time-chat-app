@@ -6,11 +6,12 @@ import google from '../Assets/Images/google.png';
 import loginImage from '../Assets/Images/imagelogin.svg';
 import '../Assets/Styles/SignIn.css';
 import '../Assets/Styles/SignPages.css';
-import { WithFacebook, WithGoogle } from '../Helper/AccountsManagemnt';
+import { CheckAuth, WithFacebook, WithGoogle } from '../Helper/AccountsManagemnt';
 import useInput from '../Helper/useInput';
 
 function SignIn() {
   const navigate = useNavigate();
+  CheckAuth();
   const [username , usernameInput] = useInput({type: 'text' ,placeholder: 'Username' , className: 'SignInDataInput'});
   const [password , passwordInput] = useInput({type: 'password' ,placeholder: 'Password' , className: 'SignInDataInput'});
   return (

@@ -141,7 +141,7 @@ body{
 
 .messagecontent{
     display: inline-block;
-    background-color: #E14D2A;
+    background-color: #FF5C35;
     color: black;
     width: fit-content;
     max-width: 400px;
@@ -201,7 +201,7 @@ body{
     border-radius: 24px;
     outline: none;
     font-family: 'Poppins';
-    background-color: #E14D2A;
+    background-color: #FF5C35;
     border: none;
     font-weight: bolder;
     border: 1px solid black;

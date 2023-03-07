@@ -1,21 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import SignIn from '../Pages/SignIn';
 import ChatPage from '../Pages/ChatPage';
-import {auth}  from './AccountsManagemnt';
-import { useNavigate } from 'react-router-dom';
-import { onAuthStateChanged } from "firebase/auth";
+import {auth, CheckAuth}  from './AccountsManagemnt';
 function IsSignedIn(){
-  const navigate = useNavigate();
-  useEffect(()=>{
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-          navigate('/')
-        } else {
-          navigate('/')
-        }
-      });
-     
-  }, [])
+ CheckAuth();
   if(auth.currentUser == null){
       return <SignIn />
     }

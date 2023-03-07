@@ -41,7 +41,7 @@
 }
 
 .signIn > a{
-    color: #E14D2A;
+    color: #FF5C35;
     font-weight: bold;
 }
 
@@ -63,7 +63,7 @@
     width: 25rem;
     border: none;
     cursor: pointer;
-    background-color: #E14D2A;
+    background-color: #FF5C35;
     border-radius: 8px;
     font-family: 'Poppins';
     font-size: 1.5rem;

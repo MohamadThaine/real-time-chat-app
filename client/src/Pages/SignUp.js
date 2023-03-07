@@ -6,10 +6,11 @@ import google from '../Assets/Images/google.png';
 import '../Assets/Styles/SignUp.css';
 import '../Assets/Styles/SignPages.css';
 import useInput from '../Helper/useInput';
-import  {WithGoogle , WithFacebook , SignUpWithEmail}  from '../Helper/AccountsManagemnt';
+import  {WithGoogle , WithFacebook , SignUpWithEmail, CheckAuth}  from '../Helper/AccountsManagemnt';
 
 function SignUp() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  CheckAuth();
   const [username , usernameInput] = useInput({type: 'text' ,placeholder: 'Username' , className: 'SignUpDataInput'});
   const [firstName , firstNameInput] = useInput({type: 'text' ,placeholder: 'First Name' , className: 'SignUpDataInput'});
   const [middleName , middleNameInput] = useInput({type: 'text' ,placeholder: 'Middle Name (optional)' , className: 'SignUpDataInput'});
