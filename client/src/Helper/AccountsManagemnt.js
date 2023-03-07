@@ -6,7 +6,8 @@ import { getAuth,
         createUserWithEmailAndPassword, 
         sendEmailVerification,
         signInWithEmailAndPassword,
-        onAuthStateChanged} from 'firebase/auth';
+        onAuthStateChanged,
+        getAdditionalUserInfo } from 'firebase/auth';
 import {  getFirestore,
           query,
           getDocs,
@@ -35,41 +36,58 @@ const FacebookProvider = new FacebookAuthProvider();
 const db = getFirestore(app)
 export const auth = getAuth(app);
 
+
+
 export async function WithGoogle(){
     await signInWithPopup(auth, googleProvider)
     .then((result) => {
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      const user = result.user;
+      const moreInfo = getAdditionalUserInfo(result);
+      if(moreInfo.isNewUser){
+        setDoc(doc(db, "users", auth.currentUser.uid), {
+          Email: auth.currentUser.email,
+          Username: auth.currentUser.email.substring(0, auth.currentUser.email.lastIndexOf("@")),
+          Name: auth.currentUser.displayName,
+          BirthDate: "",//Will do a function later to read them or add them
+          Gender: ""
+        });
+      }
     }).catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      const email = error.customData.email;
-      const credential = GoogleAuthProvider.credentialFromError(error);
+      console.log(error)
     });
 }
 
 export async function WithFacebook(){
+  FacebookProvider.addScope('user_birthday')
+  FacebookProvider.addScope('user_gender')
   await signInWithPopup(auth, FacebookProvider)
   .then((result) => {
-    const user = result.user;
-    const credential = FacebookAuthProvider.credentialFromResult(result);
-    const accessToken = credential.accessToken;
+    const moreInfo = getAdditionalUserInfo(result)
+    console.log(moreInfo)
+    if(moreInfo.isNewUser){
+      setDoc(doc(db, "users", auth.currentUser.uid), {
+        Email: auth.currentUser.email,
+        Username: auth.currentUser.email.substring(0, auth.currentUser.email.lastIndexOf("@")),
+        Name: auth.currentUser.displayName,
+        BirthDate: moreInfo.profile.birthday,
+        Gender: moreInfo.profile.gender
+      });
+  }
+  else{
+    //Do fetch chat fucntion (not working on it yet)
+  }
   })
   .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    const email = error.customData.email;
-    const credential = FacebookAuthProvider.credentialFromError(error);
+    console.log(error)
   });
 }
 
 export async function SignUpWithEmail(email , password, username , fullName , birthDate , gender){
   await createUserWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
+  .then(() => {
     sendEmailVerification(auth.currentUser)
-    setDoc(doc(db, "users", username), {
+    setDoc(doc(db, "users", auth.currentUser.uid), {
       Email: email,
+      Username: username,
       Name: fullName,
       BirthDate: birthDate,
       Gender: gender

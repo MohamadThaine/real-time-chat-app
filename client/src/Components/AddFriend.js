@@ -25,7 +25,7 @@ function AddFriend(props){
 function SearchResult({resultList}){
    return(
     resultList.map(result => {
-        return <User user={result} />
+        return <User key={result.ID} user={result} />
     })
    )
 }
