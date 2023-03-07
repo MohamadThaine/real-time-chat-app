@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, {useState } from "react";
 import close from '../Assets/Images/close.png';
 import '../Assets/Styles/Popup.css'; 
 import '../Assets/Styles/Report.css'; 

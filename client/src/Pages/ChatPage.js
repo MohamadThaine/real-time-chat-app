@@ -13,6 +13,7 @@ import ChatList from '../Components/ChatList';
 import Report from '../Components/Report';
 import '../Assets/Styles/ChatPage.css'; 
 import { SignOut } from '../Helper/AccountsManagemnt';
+import AddFriend from '../Components/AddFriend';
 
 
 function ChatPage(){
@@ -22,8 +23,9 @@ function ChatPage(){
                                              {personImg: facebook , personName:'Facebook Thaine' , lastMessage: 'How are you' , time: '10:00 PM'}]);
     
     const [isReportOpen , setIsReportOpen] = useState(false)
-    const handeReport = () => {
-        setIsReportOpen(!isReportOpen)
+    const [isAddFriendOpen , setIsAddFriendOpen] = useState(false)
+    const handlePopup = (setValue , value) => {
+        setValue(!value)
     }
     function sendAMessage(){
         const message = messageRef.current.value;
@@ -54,10 +56,10 @@ function ChatPage(){
                     <img src={Logout} title='Logout'/>
                 </button>
                 <button>
-                    <img src={ReportImg}  title='Report a problem' onClick={handeReport}/>
+                    <img src={ReportImg}  title='Report a problem' onClick={() => handlePopup(setIsReportOpen , isReportOpen)}/>
                 </button>
                 <button>
-                    <img src={addFriend} title='Add Friend' />
+                    <img src={addFriend} title='Add Friend' onClick={() => handlePopup(setIsAddFriendOpen , isAddFriendOpen)} />
                 </button>
             </div>
             </div>
@@ -79,7 +81,8 @@ function ChatPage(){
              </div>
             </div>
         </div>
-        {isReportOpen && <Report name='Mohamad thaine' email='example.com' handleClose = {handeReport} />}
+        {isReportOpen && <Report name='Mohamad thaine' email='example.com' handleClose = {() => handlePopup(setIsReportOpen , isReportOpen)} />}
+        { isAddFriendOpen && <AddFriend handleClose = {() => handlePopup(setIsAddFriendOpen , isAddFriendOpen)} />}
     </div>
 }
 
