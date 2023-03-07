@@ -97,14 +97,14 @@ export async function SignOut(){
   auth.signOut();
 }
 
-export function CheckAuth(){
+export function CheckAuth(path){
   const navigate = useNavigate();
   useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
         if (user) {
           navigate('/')
         } else {
-          navigate('/')
+          navigate(path)
         }
       });
      

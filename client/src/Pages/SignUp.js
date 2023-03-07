@@ -10,7 +10,7 @@ import  {WithGoogle , WithFacebook , SignUpWithEmail, CheckAuth}  from '../Helpe
 
 function SignUp() {
   const navigate = useNavigate();
-  CheckAuth();
+  CheckAuth('/SignUp');
   const [username , usernameInput] = useInput({type: 'text' ,placeholder: 'Username' , className: 'SignUpDataInput'});
   const [firstName , firstNameInput] = useInput({type: 'text' ,placeholder: 'First Name' , className: 'SignUpDataInput'});
   const [middleName , middleNameInput] = useInput({type: 'text' ,placeholder: 'Middle Name (optional)' , className: 'SignUpDataInput'});
@@ -31,7 +31,7 @@ function SignUp() {
             </div>
             <div className="title">
               <p>Sign Up</p>
-              <p className="signIn">Alreadly have an account? <a onClick={() => navigate('/SignIn')} style= {{cursor:'pointer'}}>Sign in</a></p>
+              <p className="signIn">Alreadly have an account? <a onClick={() => navigate('/')} style= {{cursor:'pointer'}}>Sign in</a></p>
             </div>
             <div className="signUpdata">
               <div className="Sections">

@@ -3,7 +3,7 @@ import SignIn from '../Pages/SignIn';
 import ChatPage from '../Pages/ChatPage';
 import {auth, CheckAuth}  from './AccountsManagemnt';
 function IsSignedIn(){
- CheckAuth();
+ CheckAuth('/');
   if(auth.currentUser == null){
       return <SignIn />
     }

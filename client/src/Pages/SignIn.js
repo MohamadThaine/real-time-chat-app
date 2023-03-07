@@ -11,7 +11,6 @@ import useInput from '../Helper/useInput';
 
 function SignIn() {
   const navigate = useNavigate();
-  CheckAuth();
   const [username , usernameInput] = useInput({type: 'text' ,placeholder: 'Username' , className: 'SignInDataInput'});
   const [password , passwordInput] = useInput({type: 'password' ,placeholder: 'Password' , className: 'SignInDataInput'});
   return (
