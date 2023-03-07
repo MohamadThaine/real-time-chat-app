@@ -17,7 +17,7 @@ function App(props) {
   return(
     <>
     <Routes>
-      <Route path="/" element={<IsSignedIn isLogedIn ={isLoggedIn}  />} />
+      <Route path="/" element={<IsSignedIn isLogedIn = {true}  />} />
       <Route path="SignIn" element={<SignIn />} />
       <Route path="SignUp" element={<SignUp />} />
       <Route path="*" element={<PageNotFound />} />

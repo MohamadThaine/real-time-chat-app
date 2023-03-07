@@ -16,7 +16,7 @@ import '../Assets/Styles/ChatPage.css';
 
 function ChatPage(){
     const messageRef = useRef();
-    const [messagesList , setMessagesList] = useState([]);
+    const [messagesList , setMessagesList] = useState([{recived: true , time:"8:00 PM" ,personImg:Hadi , content:"hello"}]);
     const [chatList , setChatList] = useState([{personImg: Hadi , personName:'Ahmad Thaine' , lastMessage: 'HI' , time: '8:00 PM'} , 
                                              {personImg: facebook , personName:'Facebook Thaine' , lastMessage: 'How are you' , time: '10:00 PM'}]);
     
