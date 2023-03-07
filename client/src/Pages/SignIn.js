@@ -6,6 +6,7 @@ import google from '../Assets/Images/google.png';
 import loginImage from '../Assets/Images/imagelogin.svg';
 import '../Assets/Styles/SignIn.css';
 import '../Assets/Styles/SignPages.css';
+import { WithFacebook, WithGoogle } from '../Helper/AccountsManagemnt';
 import useInput from '../Helper/useInput';
 
 function SignIn() {
@@ -38,8 +39,8 @@ function SignIn() {
                     <div className="outsidesingin">
                         <p><span>or sign in with</span></p>
                         <div className="outsideSingInBtns">
-                            <button className="googleBtn"><img  className="siteIcon"src={google} alt="google" /><span className="siteName">Google</span></button>
-                            <button className="fbBtn"><img className="siteIcon" src={facebook} alt="facebook" /><span className="siteName">Facebook</span></button>
+                            <button className="googleBtn" onClick={WithGoogle}><img  className="siteIcon"src={google} alt="google" /><span className="siteName">Google</span></button>
+                            <button className="fbBtn" onClick={WithFacebook}><img className="siteIcon" src={facebook} alt="facebook" /><span className="siteName">Facebook</span></button>
                         </div>
                     </div>
                 </div>

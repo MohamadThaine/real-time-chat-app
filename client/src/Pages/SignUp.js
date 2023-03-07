@@ -6,6 +6,7 @@ import google from '../Assets/Images/google.png';
 import '../Assets/Styles/SignUp.css';
 import '../Assets/Styles/SignPages.css';
 import useInput from '../Helper/useInput';
+import  {WithGoogle , WithFacebook , SignUpWithEmail}  from '../Helper/AccountsManagemnt';
 
 function SignUp() {
   const navigate = useNavigate()
@@ -71,14 +72,14 @@ function SignUp() {
               </div>
             </div>
             <div className="SignupBtns signUpElemnets">
-              <button className="SignUpBtn">Sign Up</button>
+              <button className="SignUpBtn" onClick={() => SignUpWithEmail(email , password , username , firstName + " " + middleName + " " + lastName , birthDate , Gender)}>Sign Up</button>
             </div>
             <div className="outsideSignUp">
               <div className="line" />
               <div className="outsideSignUpBtns">
                 <p className="signUpTitle">Sign Up with</p>
-                <button className="googleBtn"><img className="siteIcon" src={google} /><span className="siteName">Google</span></button>
-                <button className="fbBtn"><img className="siteIcon" src={facebook} /><span className="siteName">Facebook</span></button>
+                <button className="googleBtn" onClick={WithGoogle}><img className="siteIcon" src={google} /><span className="siteName">Google</span></button>
+                <button className="fbBtn" onClick={WithFacebook}><img className="siteIcon" src={facebook} /><span className="siteName">Facebook</span></button>
               </div>
             </div>
           </div>

@@ -12,6 +12,7 @@ import ChatMessages from '../Components/ChatMessages';
 import ChatList from '../Components/ChatList';
 import Report from '../Components/Report';
 import '../Assets/Styles/ChatPage.css'; 
+import { SignOut } from '../Helper/AccountsManagemnt';
 
 
 function ChatPage(){
@@ -49,8 +50,8 @@ function ChatPage(){
             </div>
                 <ChatList chatList={chatList} />
             <div className='tools'>
-                <button>
-                    <img src={Logout} title='Logout' />
+                <button onClick={SignOut}>
+                    <img src={Logout} title='Logout'/>
                 </button>
                 <button>
                     <img src={ReportImg}  title='Report a problem' onClick={handeReport}/>
