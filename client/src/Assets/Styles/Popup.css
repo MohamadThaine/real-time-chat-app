@@ -23,6 +23,12 @@
     font-size: 1.5rem;
     background-color: white;
     padding: 10px;
+    
+}
+
+.popupWrapper img{
+    max-width: 128px;
+    max-height: 128px;
 }
 
 .closeIcon{

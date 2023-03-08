@@ -6,7 +6,7 @@ import google from '../Assets/Images/google.png';
 import loginImage from '../Assets/Images/imagelogin.svg';
 import '../Assets/Styles/SignIn.css';
 import '../Assets/Styles/SignPages.css';
-import { CheckAuth, WithFacebook, WithGoogle } from '../Helper/AccountsManagemnt';
+import { SignInWithEmail, WithFacebook, WithGoogle } from '../Helper/AccountsManagemnt';
 import useInput from '../Helper/useInput';
 
 function SignIn() {
@@ -34,7 +34,7 @@ function SignIn() {
                         <div className="borderBtm"></div>
                     </div>
                     <div className="loginBtns loginElemnets">
-                        <button className="loginBtn">Sign in</button>
+                        <button className="loginBtn" onClick={() => SignInWithEmail(username , password , null)}>Sign in</button>
                     </div>
                     <div className="outsidesingin">
                         <p><span>or sign in with</span></p>

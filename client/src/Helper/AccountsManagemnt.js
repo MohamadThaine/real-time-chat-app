@@ -16,8 +16,6 @@ import {  getFirestore,
           setDoc,
           doc} from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
-import SignIn from '../Pages/SignIn';
-import ChatPage from '../Pages/ChatPage';
 import { useEffect } from 'react';
 
 const firebaseConfig = {
@@ -36,16 +34,15 @@ const FacebookProvider = new FacebookAuthProvider();
 const db = getFirestore(app)
 export const auth = getAuth(app);
 
-
-
 export async function WithGoogle(){
     await signInWithPopup(auth, googleProvider)
     .then((result) => {
       const moreInfo = getAdditionalUserInfo(result);
       if(moreInfo.isNewUser){
+        const username = auth.currentUser.email.substring(0, auth.currentUser.email.lastIndexOf("@"))
         setDoc(doc(db, "users", auth.currentUser.uid), {
           Email: auth.currentUser.email,
-          Username: auth.currentUser.email.substring(0, auth.currentUser.email.lastIndexOf("@")),
+          Username: username,
           Name: auth.currentUser.displayName,
           BirthDate: "",//Will do a function later to read them or add them
           Gender: ""
@@ -92,6 +89,8 @@ export async function SignUpWithEmail(email , password, username , fullName , bi
       BirthDate: birthDate,
       Gender: gender
     });
+    alert('We sent an email to verify your account')
+    auth.signOut();
   })
   .catch((error) => {
     const errorCode = error.code;
@@ -103,7 +102,11 @@ export async function SignUpWithEmail(email , password, username , fullName , bi
 
 export async function SignInWithEmail(email, password, username){
   signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
+  .then((result) => {
+    if(auth.currentUser.emailVerified == false){
+      auth.signOut();
+      alert('Please Verify your email first')
+    }
   })
   .catch((error) => {
     const errorCode = error.code;

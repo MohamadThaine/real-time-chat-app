@@ -11,6 +11,7 @@ import addFriend from '../Assets/Images/add-friend.png';
 import ChatMessages from '../Components/ChatMessages';
 import ChatList from '../Components/ChatList';
 import Report from '../Components/Report';
+import Profile from '../Components/Profile';
 import '../Assets/Styles/ChatPage.css'; 
 import { SignOut } from '../Helper/AccountsManagemnt';
 import AddFriend from '../Components/AddFriend';
@@ -24,6 +25,7 @@ function ChatPage(){
     
     const [isReportOpen , setIsReportOpen] = useState(false)
     const [isAddFriendOpen , setIsAddFriendOpen] = useState(false)
+    const [isProfileOpen , setIsProfileOpen] = useState(false)
     const handlePopup = (setValue , value) => {
         setValue(!value)
     }
@@ -46,7 +48,7 @@ function ChatPage(){
     return <div className="wrapper">
         <div className="chatsContener">
             <div className='chats'>
-            <div className='profile'>
+            <div className='profile' onClick={() => handlePopup(setIsProfileOpen , isProfileOpen)}>
                 <img src={Mohamad} />
                 <p>Mohamad Tahaina</p>
             </div>
@@ -83,6 +85,8 @@ function ChatPage(){
         </div>
         {isReportOpen && <Report name='Mohamad thaine' email='example.com' handleClose = {() => handlePopup(setIsReportOpen , isReportOpen)} />}
         { isAddFriendOpen && <AddFriend handleClose = {() => handlePopup(setIsAddFriendOpen , isAddFriendOpen)} />}
+        {isProfileOpen && <Profile img={Mohamad} username='Mohamad Tahaina' fullName='Mohamad Khalid Tahaina' email='example@gmail.com' birthDate='6/10/2000' gender='Male'
+                         handleClose = {() => handlePopup(setIsProfileOpen , isProfileOpen)} />}
     </div>
 }
 

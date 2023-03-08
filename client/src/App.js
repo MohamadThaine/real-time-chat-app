@@ -8,7 +8,6 @@ import { useState , useEffect } from 'react';
 
 function App(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   useEffect(() => {
     fetch("http://localhost:3001/CheckLoggedIn")
       .then((res) => res.json())

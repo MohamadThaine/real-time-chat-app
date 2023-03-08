@@ -13,6 +13,7 @@ function AddFriend(props){
         <div className='popupBox'>
             <div className='popupWrapper'>
                 <img src={close} className="closeIcon" onClick={props.handleClose} />
+                <img src={close} className="closeIcon" onClick={props.handleClose} />
                 {usernameInput}
                 <div className='searchResult'>
                     <SearchResult resultList={searchResult} />
