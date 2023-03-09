@@ -8,6 +8,7 @@ import Mohamad from '../Assets/Images/Mohamad.png';
 import Logout from '../Assets/Images/logout.png';
 import ReportImg from '../Assets/Images/problem-report.png';
 import addFriend from '../Assets/Images/add-friend.png';
+import user from "../Assets/Images/user.png"
 import ChatMessages from '../Components/ChatMessages';
 import ChatList from '../Components/ChatList';
 import Report from '../Components/Report';
@@ -15,17 +16,31 @@ import Profile from '../Components/Profile';
 import '../Assets/Styles/ChatPage.css'; 
 import { SignOut } from '../Helper/AccountsManagemnt';
 import AddFriend from '../Components/AddFriend';
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { app , auth } from "../Helper/AccountsManagemnt";
 
 
 function ChatPage(){
+    const [profilePicture , setProfilePicture] = useState(null);
+    const getProrfilePicture = () => {
+        const storage = getStorage(app);
+        const picRef = ref(storage, 'usersPics/' + auth.currentUser.uid + '.png');
+        getDownloadURL(picRef)
+        .then((url) => {
+            setProfilePicture(url);
+         }).catch(() => {
+            setProfilePicture(user);
+        });
+    }
+    getProrfilePicture();
     const messageRef = useRef();
     const [messagesList , setMessagesList] = useState([{recived: true , time:"8:00 PM" ,personImg:Hadi , content:"hello"}]);
     const [chatList , setChatList] = useState([{personImg: Hadi , personName:'Ahmad Thaine' , lastMessage: 'HI' , time: '8:00 PM'} , 
                                              {personImg: facebook , personName:'Facebook Thaine' , lastMessage: 'How are you' , time: '10:00 PM'}]);
     
-    const [isReportOpen , setIsReportOpen] = useState(false)
-    const [isAddFriendOpen , setIsAddFriendOpen] = useState(false)
-    const [isProfileOpen , setIsProfileOpen] = useState(false)
+    const [isReportOpen , setIsReportOpen] = useState(false);
+    const [isAddFriendOpen , setIsAddFriendOpen] = useState(false);
+    const [isProfileOpen , setIsProfileOpen] = useState(false);
     const handlePopup = (setValue , value) => {
         setValue(!value)
     }
@@ -49,7 +64,7 @@ function ChatPage(){
         <div className="chatsContener">
             <div className='chats'>
             <div className='profile' onClick={() => handlePopup(setIsProfileOpen , isProfileOpen)}>
-                <img src={Mohamad} />
+                <img src={profilePicture} />
                 <p>Mohamad Tahaina</p>
             </div>
                 <ChatList chatList={chatList} />
