@@ -12,6 +12,10 @@
     align-self: center;
 }
 
+.content button:hover{
+    background-color: #e45f3f;
+}
+
 .descriptionInput{
     min-height: 10rem;
 }
