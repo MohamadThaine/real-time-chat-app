@@ -75,3 +75,9 @@
 .confirmPasswordBT:hover{
     background-color: #e45f3f;
 }
+
+.passwordChagnedResult{
+   position: absolute;
+   bottom: 0;
+   font-size: 1.3rem;
+}

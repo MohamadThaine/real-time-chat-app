@@ -5,11 +5,14 @@ import '../Assets/Styles/Popup.css';
 import '../Assets/Styles/Profile.css'; 
 import { useState } from 'react';
 import ChangeProfilePicture from '../Helper/ChangeProfilePicture';
+import { updatePassword } from 'firebase/auth';
+import { auth } from '../Helper/AccountsManagemnt';
 
 function Profile(props){
     
     const [password , passwordInput] = useInput({type: 'password' , placeholder: 'Type new password here...'});
     const [currentImg , SetImg] = useState(props.img);
+    const [passwordChangedResult , setResult] = useState('1');
     const changeOldPic = (newImg) =>{
         var Pic = new Image();
         var ImgUrl = (URL.createObjectURL(newImg));
@@ -25,6 +28,20 @@ function Profile(props){
         };
         Pic.src = ImgUrl;
     }
+
+    function updateUserPassword(){
+        if(password == ''){
+            setResult('New password cant be empty!');
+            return;
+        }
+        updatePassword(auth.currentUser , password).then(() => {
+            setResult('Password has been changed');
+        }).catch((error) => {
+            setResult(error);
+        });
+       
+    }
+
     return(
         <div className="popupBox">
             <div className="popupWrapper">
@@ -47,9 +64,10 @@ function Profile(props){
                         <div className="section">
                             <p>Email: {props.email}</p>
                             <p>Birthdate: {props.birthDate}</p>
-                            <button className='confirmPasswordBT'>Confirm</button>
+                            <button className='confirmPasswordBT' onClick={updateUserPassword}>Confirm</button>
                         </div>
                     </div>
+                    <div className='passwordChagnedResult'>{passwordChangedResult}</div>
                 </div>
             </div>
         </div>

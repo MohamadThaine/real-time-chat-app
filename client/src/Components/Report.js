@@ -43,7 +43,7 @@ function Report(props){
                     <button onClick={sendReport}>
                         <p>Submit</p>
                     </button>
-                    <p className="reportStatus" id="reportStatusID">{status}</p>
+                    <p className="reportStatus">{status}</p>
                 </div>
             </div>
         </div>
