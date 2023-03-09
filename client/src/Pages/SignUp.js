@@ -21,6 +21,11 @@ function SignUp() {
   let emailMatching = false;
   let passwordMatching = false;
   let Gender = "none"
+  onkeyup = (e) => {
+    if(e.which === 13){
+      SignUpWithEmail(email , password , username , firstName + " " + middleName + " " + lastName , birthDate , Gender)
+    }
+  }
   return (
     <div>
         <div className="wrapper">

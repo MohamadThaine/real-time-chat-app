@@ -16,7 +16,7 @@ function AddFriend(props){
                  <div className='popupWrapper'>
                     <img src={close} className="closeIcon" onClick={props.handleClose} />
                     <p>Verify your account first to add friends!</p>
-                        <p className='sendVerifyLink' onClick={() => sendEmailVerification(auth.currentUser.email)}>Send verify link again</p>
+                        <p className='sendVerifyLink' onClick={() => sendEmailVerification(auth.currentUser)}>Send verify link again</p>
                  </div>
             </div>
         )

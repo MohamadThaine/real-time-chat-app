@@ -13,6 +13,11 @@ function SignIn() {
   const navigate = useNavigate();
   const [username , usernameInput] = useInput({type: 'text' ,placeholder: 'Username' , className: 'SignInDataInput'});
   const [password , passwordInput] = useInput({type: 'password' ,placeholder: 'Password' , className: 'SignInDataInput'});
+  onkeyup = (e) => {
+    if(e.which === 13){
+        SignInWithEmail(username , password)
+    }
+}
   return (
        <div className="wrapper">
             <div className="elementContener">
