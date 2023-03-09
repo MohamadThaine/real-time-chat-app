@@ -34,7 +34,7 @@ function SignIn() {
                         <div className="borderBtm"></div>
                     </div>
                     <div className="loginBtns loginElemnets">
-                        <button className="loginBtn" onClick={() => SignInWithEmail(username , password , null)}>Sign in</button>
+                        <button className="loginBtn" onClick={() => SignInWithEmail(username , password)}>Sign in</button>
                     </div>
                     <div className="outsidesingin">
                         <p><span>or sign in with</span></p>

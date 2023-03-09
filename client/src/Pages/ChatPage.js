@@ -4,7 +4,6 @@ import gif from '../Assets/Images/gif.png';
 import image from '../Assets/Images/image.png';
 import send from '../Assets/Images/send.png';
 import Hadi from '../Assets/Images/Hadi.png';
-import Mohamad from '../Assets/Images/Mohamad.png';
 import Logout from '../Assets/Images/logout.png';
 import ReportImg from '../Assets/Images/problem-report.png';
 import addFriend from '../Assets/Images/add-friend.png';
@@ -21,16 +20,14 @@ import { app , auth } from "../Helper/AccountsManagemnt";
 
 
 function ChatPage(){
-    const [profilePicture , setProfilePicture] = useState(null);
+    const [profilePicture , setProfilePicture] = useState(user);
     const getProrfilePicture = () => {
         const storage = getStorage(app);
         const picRef = ref(storage, 'usersPics/' + auth.currentUser.uid + '.png');
         getDownloadURL(picRef)
         .then((url) => {
             setProfilePicture(url);
-         }).catch(() => {
-            setProfilePicture(user);
-        });
+         });
     }
     getProrfilePicture();
     const messageRef = useRef();
@@ -100,7 +97,7 @@ function ChatPage(){
         </div>
         {isReportOpen && <Report name='Mohamad thaine' email='example.com' handleClose = {() => handlePopup(setIsReportOpen , isReportOpen)} />}
         { isAddFriendOpen && <AddFriend handleClose = {() => handlePopup(setIsAddFriendOpen , isAddFriendOpen)} />}
-        {isProfileOpen && <Profile img={Mohamad} username='Mohamad Tahaina' fullName='Mohamad Khalid Tahaina' email='example@gmail.com' birthDate='6/10/2000' gender='Male'
+        {isProfileOpen && <Profile img={profilePicture} username='Mohamad Tahaina' fullName='Mohamad Khalid Tahaina' email='example@gmail.com' birthDate='6/10/2000' gender='Male'
                          handleClose = {() => handlePopup(setIsProfileOpen , isProfileOpen)} />}
     </div>
 }

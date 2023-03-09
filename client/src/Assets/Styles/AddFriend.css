@@ -36,3 +36,9 @@
 .person button:hover{
     background-color: white;
 }
+
+.sendVerifyLink{
+    cursor: pointer;
+    text-decoration: underline;
+    margin-left: 23%;
+}

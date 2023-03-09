@@ -40,13 +40,7 @@ export async function WithGoogle(){
       const moreInfo = getAdditionalUserInfo(result);
       if(moreInfo.isNewUser){
         const username = auth.currentUser.email.substring(0, auth.currentUser.email.lastIndexOf("@"))
-        setDoc(doc(db, "users", auth.currentUser.uid), {
-          Email: auth.currentUser.email,
-          Username: username,
-          Name: auth.currentUser.displayName,
-          BirthDate: "",//Will do a function later to read them or add them
-          Gender: ""
-        });
+        addUserToDB(auth.currentUser.uid, auth.currentUser.email, username,auth.currentUser.displayName, "" , "");
       }
     }).catch((error) => {
       console.log(error)
@@ -59,15 +53,10 @@ export async function WithFacebook(){
   await signInWithPopup(auth, FacebookProvider)
   .then((result) => {
     const moreInfo = getAdditionalUserInfo(result)
-    console.log(moreInfo)
     if(moreInfo.isNewUser){
-      setDoc(doc(db, "users", auth.currentUser.uid), {
-        Email: auth.currentUser.email,
-        Username: auth.currentUser.email.substring(0, auth.currentUser.email.lastIndexOf("@")),
-        Name: auth.currentUser.displayName,
-        BirthDate: moreInfo.profile.birthday,
-        Gender: moreInfo.profile.gender
-      });
+      const username = auth.currentUser.email.substring(0, auth.currentUser.email.lastIndexOf("@"))
+      addUserToDB( auth.currentUser.uid , auth.currentUser.email , username,
+                  auth.currentUser.displayName , moreInfo.profile.birthday,moreInfo.profile.gender)
   }
   else{
     //Do fetch chat fucntion (not working on it yet)
@@ -76,41 +65,43 @@ export async function WithFacebook(){
   .catch((error) => {
     console.log(error)
   });
+
 }
 
 export async function SignUpWithEmail(email , password, username , fullName , birthDate , gender){
   await createUserWithEmailAndPassword(auth, email, password)
   .then(() => {
-    sendEmailVerification(auth.currentUser)
-    setDoc(doc(db, "users", auth.currentUser.uid), {
-      Email: email,
-      Username: username,
-      Name: fullName,
-      BirthDate: birthDate,
-      Gender: gender
-    });
-    alert('We sent an email to verify your account')
-    auth.signOut();
+    sendEmailVerification(auth.currentUser);
+    alert('Please verify your email to add other users!')
+    addUserToDB(auth.currentUser.uid , email, username, fullName, birthDate, gender);
   })
   .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
+    console.log(error)
     return;
   });
   
 }
 
-export async function SignInWithEmail(email, password, username){
+export async function SignInWithEmail(username, password){
+  const getEmail = query(collection(db , 'users'), where('Username' , '==' , username));
+  const exucuteQuery = await getDocs(getEmail);
+  const email = exucuteQuery.docs[0].data().Email
   signInWithEmailAndPassword(auth, email, password)
   .then((result) => {
-    if(auth.currentUser.emailVerified == false){
-      auth.signOut();
-      alert('Please Verify your email first')
-    }
   })
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
+  });
+}
+
+async function addUserToDB(UID,email , username , fullName , birthDate , gender){
+  setDoc(doc(db, "users", UID), {
+    Email: email,
+    Username: username,
+    Name: fullName,
+    BirthDate: birthDate,
+    Gender: gender
   });
 }
 
@@ -131,5 +122,6 @@ export function CheckAuth(path){
      
   }, [])
 }
+
 
 export default null
