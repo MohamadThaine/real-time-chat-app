@@ -16,10 +16,17 @@ import '../Assets/Styles/ChatPage.css';
 import { SignOut } from '../Helper/AccountsManagemnt';
 import AddFriend from '../Components/AddFriend';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import { app , auth } from "../Helper/AccountsManagemnt";
+import { app , auth , getCurrentUserInfo } from "../Helper/AccountsManagemnt";
+import Loading from '../Components/Loading';
 
 function ChatPage(){
     const [profilePicture , setProfilePicture] = useState(user);
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('')
+    const [fullName, setFullName] = useState('');
+    const [gender, setGender] = useState('');
+    const [birthDate, setBirthDate] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
     const getProrfilePicture = () => {
         const storage = getStorage(app);
         const picRef = ref(storage, 'usersPics/' + auth.currentUser.uid + '.png');
@@ -29,6 +36,7 @@ function ChatPage(){
          });
     }
     getProrfilePicture();
+    getCurrentUserInfo(setUsername, setEmail, setFullName, setGender, setBirthDate , setIsLoading);
     const messageRef = useRef();
     const [messagesList , setMessagesList] = useState([{recived: true , time:"8:00 PM" ,personImg:Hadi , content:"hello"}]);
     const [chatList , setChatList] = useState([{personImg: Hadi , personName:'Ahmad Thaine' , lastMessage: 'HI' , time: '8:00 PM'} , 
@@ -61,7 +69,7 @@ function ChatPage(){
             <div className='chats'>
             <div className='profile' onClick={() => handlePopup(setIsProfileOpen , isProfileOpen)}>
                 <img src={profilePicture} />
-                <p>Mohamad Tahaina</p>
+                <p>{username}</p>
             </div>
                 <ChatList chatList={chatList} />
             <div className='tools'>
@@ -94,10 +102,11 @@ function ChatPage(){
              </div>
             </div>
         </div>
-        {isReportOpen && <Report name='Mohamad thaine' email='example.com' handleClose = {() => handlePopup(setIsReportOpen , isReportOpen)} />}
+        {isReportOpen && <Report name={username} email={email} handleClose = {() => handlePopup(setIsReportOpen , isReportOpen)} />}
         { isAddFriendOpen && <AddFriend handleClose = {() => handlePopup(setIsAddFriendOpen , isAddFriendOpen)} />}
-        {isProfileOpen && <Profile img={profilePicture} username='Mohamad Tahaina' fullName='Mohamad Khalid Tahaina' email='example@gmail.com' birthDate='6/10/2000' gender='Male'
+        {isProfileOpen && <Profile img={profilePicture} username={username} fullName={fullName} email={email} birthDate={birthDate} gender={gender}
                          handleClose = {() => handlePopup(setIsProfileOpen , isProfileOpen)} />}
+        {isLoading && <Loading />}
     </div>
 }
 

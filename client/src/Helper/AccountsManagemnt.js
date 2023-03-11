@@ -86,6 +86,7 @@ export async function SignUpWithEmail(email , password, username , fullName , bi
 export async function SignInWithEmail(username, password , setLoginStatus){
   const getEmail = query(collection(db , 'users'), where('Username' , '==' , username));
   const exucuteQuery = await getDocs(getEmail);
+  
   var email;
   try{
     email = exucuteQuery.docs[0].data().Email
@@ -95,9 +96,9 @@ export async function SignInWithEmail(username, password , setLoginStatus){
   }
   
   signInWithEmailAndPassword(auth, email, password)
-  .then((result) => {
+  .then(() => {
   })
-  .catch((error) => {
+  .catch(() => {
     setLoginStatus('Wrong Password');
   });
 }
@@ -110,6 +111,17 @@ async function addUserToDB(UID,email , username , fullName , birthDate , gender)
     BirthDate: birthDate,
     Gender: gender
   });
+}
+
+export async function getCurrentUserInfo(setUsername, setEmail, setFullName, setGender, setBirthDate, setIsLoading){
+  const getInfo = query(collection(db , 'users'), where('Email' , '==' , auth.currentUser.email));
+  const user = await getDocs(getInfo);
+  setUsername(user.docs[0].data().Username);
+  setEmail(auth.currentUser.email);
+  setFullName(user.docs[0].data().Name);
+  setGender(user.docs[0].data().Gender);
+  setBirthDate(user.docs[0].data().BirthDate);
+  setIsLoading(false);
 }
 
 export function SignOut(){
