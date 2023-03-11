@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import facebook from '../Assets/Images/facebook.png';
 import gif from '../Assets/Images/gif.png';
 import image from '../Assets/Images/image.png';
@@ -17,7 +17,7 @@ import { SignOut } from '../Helper/AccountsManagemnt';
 import AddFriend from '../Components/AddFriend';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { app , auth } from "../Helper/AccountsManagemnt";
-
+import Loading from '../Components/Loading';
 
 function ChatPage(){
     const [profilePicture , setProfilePicture] = useState(user);
@@ -28,6 +28,7 @@ function ChatPage(){
         .then((url) => {
             setProfilePicture(url);
          });
+         
     }
     getProrfilePicture();
     const messageRef = useRef();

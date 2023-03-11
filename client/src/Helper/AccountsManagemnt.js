@@ -15,8 +15,9 @@ import {  getFirestore,
           where,
           setDoc,
           doc} from "firebase/firestore";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate   } from 'react-router-dom';
 import { useEffect } from 'react';
+import { unstable_batchedUpdates } from 'react-dom';
 
 const firebaseConfig = {
     apiKey: process.env.React_APP_Firebase_API_KEY,
@@ -105,21 +106,25 @@ async function addUserToDB(UID,email , username , fullName , birthDate , gender)
   });
 }
 
-export async function SignOut(){
+export function SignOut(){
   auth.signOut();
-}
+} 
 
-export function CheckAuth(path){
+export function CheckAuth(path, setCurrentUser, setIsLoading){
   const navigate = useNavigate();
   useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
-        if (user) {
-          navigate('/')
-        } else {
-          navigate(path)
-        }
+        unstable_batchedUpdates(() => {
+          setIsLoading(false)
+          if (user) {
+            setCurrentUser(user);
+            navigate('/')
+          } else {
+              setCurrentUser(null)
+              navigate(path)
+          }
+        })
       });
-     
   }, [])
 }
 

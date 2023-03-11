@@ -12,7 +12,7 @@ function Profile(props){
     
     const [password , passwordInput] = useInput({type: 'password' , placeholder: 'Type new password here...'});
     const [currentImg , SetImg] = useState(props.img);
-    const [passwordChangedResult , setResult] = useState('1');
+    const [passwordChangedResult , setResult] = useState('');
     const changeOldPic = (newImg) =>{
         var Pic = new Image();
         var ImgUrl = (URL.createObjectURL(newImg));
