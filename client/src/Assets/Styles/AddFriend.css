@@ -1,3 +1,9 @@
+.searchWrapper{
+    min-width: 11vw;
+    padding-bottom: 30px;
+    position: relative;
+}
+
 .person{
     display: flex;
     align-items: center;
@@ -13,7 +19,7 @@
 
 .usernameInput{
     min-width: 90%;
-    margin-left: 10px;
+    margin-left: 12px;
     margin-top: 30px;
 }
 
@@ -41,4 +47,12 @@
     cursor: pointer;
     text-decoration: underline;
     margin-left: 23%;
+}
+
+.noResult{
+    font-size: 1.2rem;
+    position: absolute;
+    top: 50%;
+    left: 22%;
+    padding-top: 10px;
 }

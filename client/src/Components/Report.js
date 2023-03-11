@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, {useRef, useState } from "react";
 import close from '../Assets/Images/close.png';
 import '../Assets/Styles/Popup.css'; 
 import '../Assets/Styles/Report.css'; 
@@ -9,7 +9,7 @@ import emailjs from '@emailjs/browser';
 function Report(props){
     const [title , titleInput] = useInput({type: 'text' , placeholder: 'Problem title' , className: 'titleInput'})
     const [description , setDescription] = useState('')
-    const [status , setStatus] = useState('')
+    const statusRef = useRef(null)
     var EmailJsTemplateParams = {
         from_name: props.name,
         Title: title,
@@ -22,13 +22,13 @@ function Report(props){
     const sendReport = (e) => {
         if(title == '' || description == ''){ return; }
         e.preventDefault();
-        emailjs.send(process.env.REACT_APP_EmailJsServiceID , process.env.React_APP_EmailJsTemplateID , EmailJsTemplateParams ,  process.env.React_APP_EmailJs_API_KEY)
-        .then(function(response){
-            console.log(response);
-            setStatus('Report has been sent we will content you by email within 48 hours');
-        } , function(error) {
-            console.log(error);
-            setStatus('Report has not been sent');
+        emailjs.send(process.env.React_APP_EmailJsServiceID , process.env.React_APP_EmailJsTemplateID , EmailJsTemplateParams ,  process.env.React_APP_EmailJs_API_KEY)
+        .then(() => {
+            statusRef.current.innerText = 'Report has been sent we will content you by email within 48 hours';
+            statusRef.current.className = 'reportStatus succesfullReport';
+        }).catch((error) => {
+            statusRef.current.innerText = 'Report has not been sent error code:' + error.code;
+            statusRef.current.className = 'reportStatus failedReport';
         })
     }
 
@@ -43,7 +43,7 @@ function Report(props){
                     <button onClick={sendReport}>
                         <p>Submit</p>
                     </button>
-                    <p className="reportStatus">{status}</p>
+                    <p className="reportStatus" ref={statusRef}></p>
                 </div>
             </div>
         </div>

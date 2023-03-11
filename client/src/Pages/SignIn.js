@@ -13,6 +13,7 @@ function SignIn() {
   const navigate = useNavigate();
   const [username , usernameInput] = useInput({type: 'text' ,placeholder: 'Username' , className: 'SignInDataInput'});
   const [password , passwordInput] = useInput({type: 'password' ,placeholder: 'Password' , className: 'SignInDataInput'});
+  const [loginStatus , setLoginStatus] = useState('');
   onkeyup = (e) => {
     if(e.which === 13){
         SignInWithEmail(username , password)
@@ -36,10 +37,12 @@ function SignIn() {
                     <div className="password loginElemnets">
                         <p>Password</p>
                         {passwordInput}
-                        <div className="borderBtm"></div>
+                        <div className="borderBtm"></div> 
                     </div>
+                    <p className='wrongInfo'>{loginStatus}</p>
                     <div className="loginBtns loginElemnets">
-                        <button className="loginBtn" onClick={() => SignInWithEmail(username , password)}>Sign in</button>
+                        
+                        <button className="loginBtn" onClick={() => SignInWithEmail(username , password , setLoginStatus)}>Sign in</button>
                     </div>
                     <div className="outsidesingin">
                         <p><span>or sign in with</span></p>

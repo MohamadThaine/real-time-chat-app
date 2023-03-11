@@ -32,7 +32,7 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 const googleProvider = new GoogleAuthProvider();
 const FacebookProvider = new FacebookAuthProvider();
-const db = getFirestore(app)
+export const db = getFirestore(app)
 export const auth = getAuth(app);
 
 export async function WithGoogle(){
@@ -83,16 +83,22 @@ export async function SignUpWithEmail(email , password, username , fullName , bi
   
 }
 
-export async function SignInWithEmail(username, password){
+export async function SignInWithEmail(username, password , setLoginStatus){
   const getEmail = query(collection(db , 'users'), where('Username' , '==' , username));
   const exucuteQuery = await getDocs(getEmail);
-  const email = exucuteQuery.docs[0].data().Email
+  var email;
+  try{
+    email = exucuteQuery.docs[0].data().Email
+  }catch(error){
+    setLoginStatus('Wrong Username');
+    return;
+  }
+  
   signInWithEmailAndPassword(auth, email, password)
   .then((result) => {
   })
   .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
+    setLoginStatus('Wrong Password');
   });
 }
 

@@ -105,3 +105,9 @@
     color: black;
     border-bottom: 0px;
 }
+
+.wrongInfo{
+    color: rgb(213, 7, 7);
+    font-weight: bold;
+    font-size: 1rem;
+}

@@ -24,3 +24,11 @@
     align-self: center;
     font-size: 0.8rem;
 }
+
+.succesfullReport{
+    color: green;
+}
+
+.failedReport{
+    color: rgb(213, 7, 7);
+}

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 function Message({message}){
+    const msgRef = useRef(null)
     if(message.recived){
         return(
             <div className="recivedMessage" title={message.time}>
@@ -13,8 +14,8 @@ function Message({message}){
     } 
     else{
         return(
-            <div className="sentMessage" title={message.time}>
-                <div className='messagecontent'>
+            <div className="sentMessage" title={message.time}> 
+                <div className='messagecontent' ref={msgRef}>
                     <p>{message.content}</p>
                 </div>
             </div>

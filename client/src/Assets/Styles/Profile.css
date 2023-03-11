@@ -81,3 +81,14 @@
    bottom: 0;
    font-size: 1.3rem;
 }
+
+.uploadStatus{
+    font-size: 1rem;
+    margin-top: 10px;
+    color: rgb(213, 7, 7);
+}
+
+.profileUsername{
+    margin-top: -20px;
+}
+

@@ -13,16 +13,17 @@ function Profile(props){
     const [password , passwordInput] = useInput({type: 'password' , placeholder: 'Type new password here...'});
     const [currentImg , SetImg] = useState(props.img);
     const [passwordChangedResult , setResult] = useState('');
+    const [uploadStatus ,setUploadStatus] = useState('');
     const changeOldPic = (newImg) =>{
         var Pic = new Image();
         var ImgUrl = (URL.createObjectURL(newImg));
-        Pic.onload = function () {
+        Pic.onload = () => {
             if(this.width < 128 || this.height < 128){
-                alert('Picture must be 128px * 128px at least!')
+                setUploadStatus('Picture must be 128px * 128px at least!');
             }
             else{
                 SetImg(URL.createObjectURL(newImg));
-                ChangeProfilePicture(newImg);
+                ChangeProfilePicture(newImg , uploadStatus);
             }
             URL.revokeObjectURL(ImgUrl);
         };
@@ -30,7 +31,7 @@ function Profile(props){
     }
 
     function updateUserPassword(){
-        if(password == ''){
+        if(password === ''){
             setResult('New password cant be empty!');
             return;
         }
@@ -45,16 +46,18 @@ function Profile(props){
     return(
         <div className="popupBox">
             <div className="popupWrapper">
-                <img src={close} className="closeIcon" onClick={props.handleClose}/>
+                <img src={close} className="closeIcon" onClick={props.handleClose} alt='close profile'/>
                 <div className='profileDataWrapper'>
                     <div className='img'>
-                        {currentImg && <img src={currentImg} className="userImg"/>}
+                        {currentImg && <img src={currentImg} className="userImg" alt='Your current profile picture'/>}
                         <label htmlFor='uploadInput'>
-                            <img src={changePic} />
+                            <img src={changePic} alt='Change picture'/>
                         </label>  
                         <input type='file' id='uploadInput' className='uploadImg' title='' onChange={e => changeOldPic(e.target.files[0])} accept="image/*"/> 
+                        
                     </div>
-                    <p>{props.username}</p>
+                    <p className='uploadStatus'>{uploadStatus}</p>
+                    <p className='profileUsername'>{props.username}</p>
                     <div className="infoSections">
                         <div className="section">
                             <p>Name: {props.fullName}</p>
