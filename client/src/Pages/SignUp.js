@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import appicon from '../Assets/Images/appicon.png';
 import facebook from '../Assets/Images/facebook.png';
@@ -10,7 +10,9 @@ import  {WithGoogle , WithFacebook , SignUpWithEmail, CheckAuth}  from '../Helpe
 
 function SignUp() {
   const navigate = useNavigate();
-  CheckAuth('/SignUp');
+  useEffect(() => {
+    CheckAuth('/SignUp');
+  } ,[])
   const [username , usernameInput] = useInput({type: 'text' ,placeholder: 'Username' , className: 'SignUpDataInput'});
   const [firstName , firstNameInput] = useInput({type: 'text' ,placeholder: 'First Name' , className: 'SignUpDataInput'});
   const [middleName , middleNameInput] = useInput({type: 'text' ,placeholder: 'Middle Name (optional)' , className: 'SignUpDataInput'});
@@ -23,7 +25,9 @@ function SignUp() {
   let Gender = "none"
   onkeyup = (e) => {
     if(e.which === 13){
-      SignUpWithEmail(email , password , username , firstName + " " + middleName + " " + lastName , birthDate , Gender)
+      if(emailMatching && passwordMatching){
+        SignUpWithEmail(email , password , username , firstName + " " + middleName + " " + lastName , birthDate , Gender)
+      }
     }
   }
   return (
@@ -78,7 +82,7 @@ function SignUp() {
               </div>
             </div>
             <div className="SignupBtns signUpElemnets">
-              <button className="SignUpBtn" onClick={() => SignUpWithEmail(email , password , username , firstName + " " + middleName + " " + lastName , birthDate , Gender)}>Sign Up</button>
+              <button className="SignUpBtn" onClick={() => {if(emailMatching && passwordMatching) SignUpWithEmail(email , password , username , firstName + " " + middleName + " " + lastName , birthDate , Gender)}}>Sign Up</button>
             </div>
             <div className="outsideSignUp">
               <div className="line" />

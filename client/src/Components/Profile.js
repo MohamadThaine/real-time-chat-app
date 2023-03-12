@@ -8,16 +8,18 @@ import ChangeProfilePicture from '../Helper/ChangeProfilePicture';
 import { updatePassword } from 'firebase/auth';
 import { auth } from '../Helper/AccountsManagemnt';
 
+export var [currentImg , SetImg] = '';
+
 function Profile(props){
     
     const [password , passwordInput] = useInput({type: 'password' , placeholder: 'Type new password here...'});
-    const [currentImg , SetImg] = useState(props.img);
+    [currentImg , SetImg] = useState(props.img);
     const [passwordChangedResult , setResult] = useState('');
     const [uploadStatus ,setUploadStatus] = useState('');
     const changeOldPic = (newImg) =>{
         var Pic = new Image();
         var ImgUrl = (URL.createObjectURL(newImg));
-        Pic.onload = () => {
+        Pic.onload = function() {
             if(this.width < 128 || this.height < 128){
                 setUploadStatus('Picture must be 128px * 128px at least!');
             }

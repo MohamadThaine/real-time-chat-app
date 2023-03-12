@@ -1,4 +1,4 @@
-import React, {  useRef, useState } from 'react';
+import React, {  useEffect, useRef, useState } from 'react';
 import facebook from '../Assets/Images/facebook.png';
 import gif from '../Assets/Images/gif.png';
 import image from '../Assets/Images/image.png';
@@ -11,7 +11,7 @@ import user from "../Assets/Images/user.png"
 import ChatMessages from '../Components/ChatMessages';
 import ChatList from '../Components/ChatList';
 import Report from '../Components/Report';
-import Profile from '../Components/Profile';
+import Profile, { currentImg } from '../Components/Profile';
 import '../Assets/Styles/ChatPage.css'; 
 import { SignOut } from '../Helper/AccountsManagemnt';
 import AddFriend from '../Components/AddFriend';
@@ -35,8 +35,14 @@ function ChatPage(){
             setProfilePicture(url);
          });
     }
-    getProrfilePicture();
-    getCurrentUserInfo(setUsername, setEmail, setFullName, setGender, setBirthDate , setIsLoading);
+    
+    useEffect(() => {
+        getProrfilePicture();
+    }, [currentImg])
+
+    useEffect(() => {
+        getCurrentUserInfo(setUsername, setEmail, setFullName, setGender, setBirthDate , setIsLoading);
+    }, [])
     const messageRef = useRef();
     const [messagesList , setMessagesList] = useState([{recived: true , time:"8:00 PM" ,personImg:Hadi , content:"hello"}]);
     const [chatList , setChatList] = useState([{personImg: Hadi , personName:'Ahmad Thaine' , lastMessage: 'HI' , time: '8:00 PM'} , 
