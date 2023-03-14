@@ -22,6 +22,7 @@ import { io } from "socket.io-client"
 import Loading from '../Components/Loading';
 import FriendRequest from '../Components/FriendsRequset';
 import { uuidv4 } from '@firebase/util';
+import Notification from '../Components/Notification';
 
 function ChatPage(){
     const socket = useRef();
@@ -41,6 +42,8 @@ function ChatPage(){
     const [isAddFriendOpen , setIsAddFriendOpen] = useState(false);
     const [isProfileOpen , setIsProfileOpen] = useState(false);
     const [isFriendRequestOpen, setIsFriendRequestOpen] = useState(false);
+    const [notificationRecived, setNotificationRecived] = useState(false);
+    const [notificationText, setNotificationText] = useState('');
     const getProrfilePicture = () => {
         const storage = getStorage(app);
         const picRef = ref(storage, 'usersPics/' + auth.currentUser.uid + '.png');
@@ -85,6 +88,11 @@ function ChatPage(){
       useEffect(() =>{
             socket.current.on("requestRecived",(request) => {
                 getUserData(request, setChatList, false, setRequestsList, uuidv4());
+                setNotificationText("You recived a new friend request");
+                setNotificationRecived(true);
+                setTimeout(() => {
+                    setNotificationRecived(false);
+                },3000)
             })
       },[])
 
@@ -155,6 +163,7 @@ function ChatPage(){
         {isProfileOpen && <Profile img={profilePicture} username={username} fullName={fullName} email={email} birthDate={birthDate} gender={gender}
                          handleClose = {() => handlePopup(setIsProfileOpen , isProfileOpen)} />}
         {isFriendRequestOpen && <FriendRequest requestsList={requestList} updateRequestsList={setRequestsList} handleClose = {() => handlePopup(setIsFriendRequestOpen , isFriendRequestOpen)}/>}
+        {notificationRecived && <Notification text={notificationText} />}
         {isLoading && <Loading />}
     </div>
 }

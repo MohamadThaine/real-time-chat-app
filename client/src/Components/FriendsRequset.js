@@ -45,7 +45,7 @@ function FriendRequest({requestsList, updateRequestsList, handleClose}){
                 <div className='content'>
                     <p>Friend Requests</p>
                     <div className='requestsList'>
-                        <RequestsList requestsList={requestsList} remove={remove}/>
+                        <RequestsList requestsList={pageRequests} remove={remove}/>
                     </div>
                     <Pagination pagesLength={pagesLength} currentPage={currentPage} handleChangePage={handleChangePage}/>
                 </div>
