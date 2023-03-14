@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 #api keys
 client/.env
+server/.env

@@ -7,6 +7,8 @@ import { auth, db , app } from '../Helper/AccountsManagemnt';
 import { sendEmailVerification } from 'firebase/auth';
 import { query, collection, getDocs, orderBy, startAt, endAt , limit } from "firebase/firestore";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import sendFriendRequest from '../api/post';
+import cancelFriendRequest from '../api/delete';
 
 function AddFriend(props){
     const [username , setUsername] = useState('');
@@ -60,6 +62,7 @@ function AddFriend(props){
             </div>
         )
     }
+
     return(
         <div className='popupBox'>
             <div className='popupWrapper'>
@@ -68,7 +71,7 @@ function AddFriend(props){
                     <input type='text'className='usernameInput' placeholder='Type username here...' 
                             onChange={e => {setUsername(e.target.value)}} value={username} />
                     <div className='searchResult'>
-                        <SearchResult resultList={searchResult} />
+                        <SearchResult resultList={searchResult} socket={props.socket} />
                         <p className='noResult'>{noResult}</p>
                     </div>
                 </div>
@@ -78,21 +81,62 @@ function AddFriend(props){
     )
 }
 
-function SearchResult({resultList}){
+function SearchResult({resultList, socket}){
    if(resultList == null) return;
    return(
     resultList.map(result => {
-        return <User key={result.ID} user={result} />
+        return <User key={result.ID} user={result} socket={socket} />
     })
    )
 }
 
-function User({user}){
+function User({user, socket}){
+    const [btnText, setBtnText] = useState('Add Friend');
+    const [isSending, setIsSending] = useState(true);
+    const [requestID, setRequestID] = useState(0);
+    useEffect(() => {
+        fetch('http://localhost:3001/getRequest/' + auth.currentUser.uid + '/' + user.ID)
+        .then((result) => {
+            console.log('result is: ' + result);
+            result.json()
+            .then((data) => {
+                setRequestID(data.ID);
+                setIsSending(false);
+                if(data.isAccepted == true)
+                {
+                    setBtnText('Delete Friend');
+                }
+                else{
+                    setBtnText('Cancel Request');
+                }
+            })
+        }).catch(() => {
+            setRequestID(0);
+        })
+    },[])
+    const handleRequest = () => {
+        if(isSending){
+            sendFriendRequest(auth.currentUser.uid, user.ID, setRequestID);
+            setBtnText('Cancel Request');
+            setIsSending(false);
+            socket.current.emit("sendRequest",{
+                Sender_ID:auth.currentUser.uid,
+                Recived_ID:user.ID
+            })
+        }
+        else{
+            if(requestID == 0) {return;}
+            cancelFriendRequest(requestID);
+            setBtnText('Add Friend');
+            setIsSending(true);
+        }
+    }
+    console.log('id is: ' + requestID);
     return(
         <div className='person'>
             <img src={user.img} />
             <p>{user.username}</p>
-            <button>Add Friend</button>
+            <button onClick={handleRequest}>{btnText}</button>
         </div>
     )
 }

@@ -14,10 +14,13 @@ import {  getFirestore,
           collection,
           where,
           setDoc,
-          doc} from "firebase/firestore";
+          doc,
+          getDoc} from "firebase/firestore";
+import { getDownloadURL, getStorage, ref } from 'firebase/storage';
 import { useNavigate   } from 'react-router-dom';
 import { useEffect } from 'react';
 import { unstable_batchedUpdates } from 'react-dom';
+import defultUserPic from "../Assets/Images/user.png"
 
 const firebaseConfig = {
     apiKey: process.env.React_APP_Firebase_API_KEY,
@@ -34,6 +37,7 @@ const googleProvider = new GoogleAuthProvider();
 const FacebookProvider = new FacebookAuthProvider();
 export const db = getFirestore(app)
 export const auth = getAuth(app);
+const storage = getStorage(app);
 
 export async function WithGoogle(){
     await signInWithPopup(auth, googleProvider)
@@ -86,7 +90,6 @@ export async function SignUpWithEmail(email , password, username , fullName , bi
 export async function SignInWithEmail(username, password , setLoginStatus){
   const getEmail = query(collection(db , 'users'), where('Username' , '==' , username));
   const exucuteQuery = await getDocs(getEmail);
-  
   var email;
   try{
     email = exucuteQuery.docs[0].data().Email
@@ -114,14 +117,36 @@ async function addUserToDB(UID,email , username , fullName , birthDate , gender)
 }
 
 export async function getCurrentUserInfo(setUsername, setEmail, setFullName, setGender, setBirthDate, setIsLoading){
-  const getInfo = query(collection(db , 'users'), where('Email' , '==' , auth.currentUser.email));
-  const user = await getDocs(getInfo);
-  setUsername(user.docs[0].data().Username);
+  const getInfo = await getDoc(doc(db, 'users',auth.currentUser.uid));
+  setUsername(getInfo.data().Username);
   setEmail(auth.currentUser.email);
-  setFullName(user.docs[0].data().Name);
-  setGender(user.docs[0].data().Gender);
-  setBirthDate(user.docs[0].data().BirthDate);
+  setFullName(getInfo.data().Name);
+  setGender(getInfo.data().Gender);
+  setBirthDate(getInfo.data().BirthDate);
   setIsLoading(false);
+}
+
+export async function getUserData(uid, setChatList, IsAccepted, setRequestsList, requestid){
+  const getInfo = await getDoc(doc(db, 'users',uid));
+  if(getInfo.exists){
+    const username = getInfo.data().Username;
+    const fullName = getInfo.data().Name;
+    var picture;
+    const picRef = ref(storage, 'usersPics/' + uid + '.png');
+    getDownloadURL(picRef)
+    .then((url) => {
+      picture = url;
+      if(IsAccepted){
+        setChatList(prevChat => {
+          return [...prevChat, {ID: uid, personImg: picture, personName: fullName, lastMessage: 'Hi', time: '8:00PM'}]
+      })}
+     else{
+        setRequestsList(prevRequest => {
+          return [...prevRequest, {ID: uid, personImg: picture, username: username, requestID: requestid}]
+        })
+     }
+    }).catch(picture = defultUserPic);
+  }
 }
 
 export function SignOut(){
@@ -133,7 +158,10 @@ export function CheckAuth(path, setCurrentUser, setIsLoading){
   useEffect(()=>{
     onAuthStateChanged(auth, (user) => {
         unstable_batchedUpdates(() => {
-          setIsLoading(false)
+          if(setIsLoading != null)
+          {
+            setIsLoading(false)
+          }
           if (user) {
             setCurrentUser(user);
             navigate('/')

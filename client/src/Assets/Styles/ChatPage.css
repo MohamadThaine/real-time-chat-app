@@ -59,6 +59,33 @@ body{
     height: 50px;
 }
 
+.friendRequestBT{
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin-bottom: -6px;
+}
+
+.friendRequestBT > :first-child{
+    width: 62px;
+    height: 62px;
+    margin-bottom: -6px;
+}
+
+.friendRequestBT > :last-child{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #FF5C35;
+    border: 1px solid black;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    font-family: 'Poppins';
+    font-weight: bold;
+    border-radius: 90px;
+}
+
 .profile{
     display: flex;
     align-items: center;
@@ -215,3 +242,4 @@ body{
 .chatTool > :last-child{
     margin-left: 10px;
 }
+

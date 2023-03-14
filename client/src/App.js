@@ -1,18 +1,10 @@
-import React from 'react';
-import SignIn from './Pages/SignIn';
+import React, { useEffect } from 'react';
 import SignUp from './Pages/SignUp';
 import IsSignedIn from './Helper/IsSignedIn'
 import { Routes, Route } from 'react-router-dom';
 import PageNotFound from './Pages/PageNotFound';
-import { useState , useEffect } from 'react';
 
-function App(props) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    fetch("http://localhost:3001/CheckLoggedIn")
-      .then((res) => res.json())
-      .then((data) => setIsLoggedIn(data.iLoggedIn));
-  }, []);
+function App() {
   return(
     <>
     <Routes>

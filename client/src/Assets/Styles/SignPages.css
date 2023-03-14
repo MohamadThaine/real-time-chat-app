@@ -72,7 +72,6 @@ html{
 .outsideSingInBtns > * , .outsideSignUpBtns > *{
     border: none;
     color: white;
-    cursor: pointer;
     border-radius: 8px;
     align-items: center;
     font-family: 'Poppins';

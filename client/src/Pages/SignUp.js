@@ -6,13 +6,23 @@ import google from '../Assets/Images/google.png';
 import '../Assets/Styles/SignUp.css';
 import '../Assets/Styles/SignPages.css';
 import useInput from '../Helper/useInput';
-import  {WithGoogle , WithFacebook , SignUpWithEmail, CheckAuth}  from '../Helper/AccountsManagemnt';
+import  {WithGoogle , WithFacebook , SignUpWithEmail, auth}  from '../Helper/AccountsManagemnt';
+import { unstable_batchedUpdates } from 'react-dom';
+import { onAuthStateChanged } from 'firebase/auth';
 
 function SignUp() {
   const navigate = useNavigate();
-  useEffect(() => {
-    CheckAuth('/SignUp');
-  } ,[])
+  useEffect(()=>{
+    onAuthStateChanged(auth, (user) => {
+        unstable_batchedUpdates(() => {
+          if (user) {
+            navigate('/')
+          } else {
+              navigate('/SignUp');
+          }
+        })
+      });
+  }, [])
   const [username , usernameInput] = useInput({type: 'text' ,placeholder: 'Username' , className: 'SignUpDataInput'});
   const [firstName , firstNameInput] = useInput({type: 'text' ,placeholder: 'First Name' , className: 'SignUpDataInput'});
   const [middleName , middleNameInput] = useInput({type: 'text' ,placeholder: 'Middle Name (optional)' , className: 'SignUpDataInput'});
