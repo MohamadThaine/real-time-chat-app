@@ -2,10 +2,11 @@ const { response } = require('express');
 const db = require('../dbConnection');
 
 const removeRequestOrFriend = (request, response) => {
-    const ID = parseInt(request.params.id)
+    const ID = request.params.id
     db.pool.query('DELETE FROM user_friends WHERE "ID" = $1', [ID], (error, result) => {
         if (error) {
-          throw error
+          response.status(400).send();
+          return;
         }
         if(result.rowCount == 0)
         {
