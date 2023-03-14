@@ -1,0 +1,13 @@
+#emailJS api
+React_APP_EmailJsServiceID=
+React_APP_EmailJsTemplateID=
+React_APP_EmailJs_API_KEY=
+
+#Firebae Api
+React_APP_Firebase_API_KEY=
+React_APP_Firebase_AuthDomain=
+React_APP_Firebase_ProjectId=
+React_APP_Firebase_StorageBucket=
+React_APP_Firebase_MessagingSenderId=
+React_APP_Firebase_AppId=
+React_APP_Firebase_MeasurementId=
