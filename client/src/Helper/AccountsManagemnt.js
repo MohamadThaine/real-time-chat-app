@@ -73,15 +73,23 @@ export async function WithFacebook(){
 
 }
 
-export async function SignUpWithEmail(email , password, username , fullName , birthDate , gender){
+export async function SignUpWithEmail(email , password, username , fullName , birthDate , gender, setSignUpError){
+  const checkExistingUsers = query(collection(db , 'users'), where('Username' , '==' , username));
+  const exucuteQuery = await getDocs(checkExistingUsers);
+  try{
+    const username = exucuteQuery.docs[0].data().Username;
+    setSignUpError('Account alreadly exist with this username')
+    return;
+  }catch(error){
+    //Do nothing as this uername not used before;
+  }
   await createUserWithEmailAndPassword(auth, email, password)
   .then(() => {
     sendEmailVerification(auth.currentUser);
-    alert('Please verify your email to add other users!')
     addUserToDB(auth.currentUser.uid , email, username, fullName, birthDate, gender);
   })
-  .catch((error) => {
-    console.log(error)
+  .catch(() => {
+    setSignUpError('Account alreadly exist with this email!')
     return;
   });
   

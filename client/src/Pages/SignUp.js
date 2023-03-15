@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import appicon from '../Assets/Images/appicon.png';
 import facebook from '../Assets/Images/facebook.png';
@@ -9,7 +9,6 @@ import useInput from '../Helper/useInput';
 import  {WithGoogle , WithFacebook , SignUpWithEmail, auth}  from '../Helper/AccountsManagemnt';
 import { unstable_batchedUpdates } from 'react-dom';
 import { onAuthStateChanged } from 'firebase/auth';
-
 function SignUp() {
   const navigate = useNavigate();
   useEffect(()=>{
@@ -23,27 +22,65 @@ function SignUp() {
         })
       });
   }, [])
+
+  const noNumbers = (e) => {
+    const keyPressed = e.which;
+    if (keyPressed > 47 && keyPressed < 58) {
+      e.preventDefault();
+  }
+}
+
   const [username , usernameInput] = useInput({type: 'text' ,placeholder: 'Username' , className: 'SignUpDataInput'});
-  const [firstName , firstNameInput] = useInput({type: 'text' ,placeholder: 'First Name' , className: 'SignUpDataInput'});
-  const [middleName , middleNameInput] = useInput({type: 'text' ,placeholder: 'Middle Name (optional)' , className: 'SignUpDataInput'});
-  const [lastName , lastNameInput] = useInput({type: 'text' ,placeholder: 'Last Name' , className: 'SignUpDataInput'});
+  const [firstName , firstNameInput] = useInput({type: 'text' ,placeholder: 'First Name' , className: 'SignUpDataInput', onKeyDown:noNumbers});
+  const [middleName , middleNameInput] = useInput({type: 'text' ,placeholder: 'Middle Name (optional)' , className: 'SignUpDataInput', onKeyDown:noNumbers});
+  const [lastName , lastNameInput] = useInput({type: 'text' ,placeholder: 'Last Name' , className: 'SignUpDataInput', onKeyDown:noNumbers});
   const [birthDate , birthDateInput] = useInput({type: 'date'  , className: 'SignUpDataInput'});
-  const [email , emailInput] = useInput({type: 'text' ,placeholder: 'Email' , className: 'SignUpDataInput'});
+  const [email , emailInput] = useInput({type: 'email' ,placeholder: 'Email' , className: 'SignUpDataInput'});
   const [password , passwordInput] = useInput({type: 'password' ,placeholder: 'Password' , className: 'SignUpDataInput'});
-  let emailMatching = false;
-  let passwordMatching = false;
-  let Gender = "none"
+  const [signUpError, setSignUpError] = useState('');
+  const [emailMatching, setEmailMatching] = useState(false);
+  const [passwordMatching, setPasswordMatching] = useState(false);
+  const [gender, setGender] = useState('none');
+
+  const getAge = birthDate => Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e+10)
+
+  function checkData(){
+    const validEmailRegex =  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if(email === '' || firstName === '' || lastName === '' || birthDate === '' || email === '' || password === '' || gender === 'none'){
+      setSignUpError('Dont leave any required field empty!');
+      return;
+    }
+    if(!emailMatching){
+      setSignUpError('Email and re-enter email is not matching!');
+      return;
+    }
+    if(!passwordMatching){
+      setSignUpError('Password and re-enter password is not matching!');
+      return;
+    }
+    if(!email.match(validEmailRegex)){
+      setSignUpError('Email is not valid');
+      return;
+    }
+    if(getAge(birthDate) < 13){
+      setSignUpError('You must be older than 13!');
+      return;
+    }
+    SignUpWithEmail(email , password , username , firstName + " " + middleName + " " + lastName , birthDate , gender, setSignUpError);
+  }
+
   onkeyup = (e) => {
     if(e.which === 13){
-      if(emailMatching && passwordMatching){
-        SignUpWithEmail(email , password , username , firstName + " " + middleName + " " + lastName , birthDate , Gender)
-      }
+        checkData();
     }
   }
+
+
+
   return (
     <div>
         <div className="wrapper">
-          <div className="elementContener">
+          <div className="elementContener signupContener">
             <div className="app">
               <img src={appicon} />
               <p>App Name</p>
@@ -75,24 +112,25 @@ function SignUp() {
                   {emailInput}
                 </div>
                 <div className="signUpElemnets">
-                  <input type="email" className="SignUpDataInput" placeholder="Re-enter E-mail" onBlur={e => {if(e.target.value == email) emailMatching = true ; else emailMatching = false}} />
+                  <input type="email" className="SignUpDataInput" placeholder="Re-enter E-mail" onBlur={e => {if(e.target.value == email) setEmailMatching(true) ; else setEmailMatching(false)}} />
                 </div>
                 <div className="signUpElemnets">
                   {passwordInput}
                 </div>
                 <div className="signUpElemnets">
-                  <input type="password" className="SignUpDataInput" placeholder="Re-enter Password" onBlur={e => {if(e.target.value == password) passwordMatching = true ; else passwordMatching = false}}/>
+                  <input type="password" className="SignUpDataInput" placeholder="Re-enter Password" onBlur={e => {if(e.target.value == password) setPasswordMatching(true) ; else setPasswordMatching(false)}}/>
                 </div>
                 <div className="sex signUpElemnets">
                   <p>Sex</p>
-                  <input type="radio" className="SignUpDataInput" id="female" name="sexoptions" onChange={() => Gender = "Female"} />Female
-                  <input type="radio" className="SignUpDataInput" id="male" name="sexoptions" onChange={() => Gender = "Male" }/>Male
+                  <input type="radio" className="SignUpDataInput" id="female" name="sexoptions" onChange={() => setGender("Female")} />Female
+                  <input type="radio" className="SignUpDataInput" id="male" name="sexoptions" onChange={() => setGender("Male")}/>Male
                   
                 </div>
               </div>
             </div>
             <div className="SignupBtns signUpElemnets">
-              <button className="SignUpBtn" onClick={() => {if(emailMatching && passwordMatching) SignUpWithEmail(email , password , username , firstName + " " + middleName + " " + lastName , birthDate , Gender)}}>Sign Up</button>
+              <p className='signupError'>{signUpError}</p>
+              <button className="SignUpBtn" onClick={checkData}>Sign Up</button>
             </div>
             <div className="outsideSignUp">
               <div className="line" />
@@ -108,4 +146,4 @@ function SignUp() {
     );
   }
 
-export default SignUp;
+  export default SignUp;

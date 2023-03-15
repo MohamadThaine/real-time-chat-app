@@ -18,7 +18,6 @@ function Report(props){
         Email: props.email,
         Description: description
     };
-
     const sendReport = (e) => {
         if(title == '' || description == ''){ return; }
         e.preventDefault();
