@@ -127,9 +127,10 @@ export async function getCurrentUserInfo(setUsername, setEmail, setFullName, set
 }
 
 export async function getUserData(uid, setChatList, IsAccepted, setRequestsList, requestid){
+  var username = '';
   const getInfo = await getDoc(doc(db, 'users',uid));
   if(getInfo.exists){
-    const username = getInfo.data().Username;
+    username = getInfo.data().Username;
     const fullName = getInfo.data().Name;
     var picture;
     const picRef = ref(storage, 'usersPics/' + uid + '.png');
@@ -144,9 +145,11 @@ export async function getUserData(uid, setChatList, IsAccepted, setRequestsList,
         setRequestsList(prevRequest => {
           return [...prevRequest, {ID: uid, personImg: picture, username: username, requestID: requestid}]
         })
+      
      }
     }).catch(picture = defultUserPic);
   }
+  return username;
 }
 
 export function SignOut(){

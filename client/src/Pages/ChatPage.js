@@ -87,9 +87,10 @@ function ChatPage(){
 
       useEffect(() =>{
             socket.current.on("requestRecived",(request) => {
-                getUserData(request, setChatList, false, setRequestsList, uuidv4());
-                setNotificationText("You recived a new friend request");
-                setNotificationRecived(true);
+                getUserData(request, setChatList, false, setRequestsList, uuidv4()).then((username) => {
+                    setNotificationText(username + " sent you a friend request");
+                    setNotificationRecived(true);
+                })
                 setTimeout(() => {
                     setNotificationRecived(false);
                 },3000)
@@ -167,9 +168,5 @@ function ChatPage(){
         {isLoading && <Loading />}
     </div>
 }
-
-
-
-
 
 export default ChatPage
