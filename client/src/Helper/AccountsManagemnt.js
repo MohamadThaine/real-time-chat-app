@@ -120,7 +120,8 @@ async function addUserToDB(UID,email , username , fullName , birthDate , gender)
     Username: username,
     Name: fullName,
     BirthDate: birthDate,
-    Gender: gender
+    Gender: gender,
+    UsernameSmallLetters: username.toLowerCase()
   });
 }
 
@@ -145,17 +146,16 @@ export async function getUserData(uid, setChatList, IsAccepted, setRequestsList,
     getDownloadURL(picRef)
     .then((url) => {
       picture = url;
-      if(IsAccepted){
-        setChatList(prevChat => {
-          return [...prevChat, {ID: uid, personImg: picture, personName: fullName, lastMessage: 'Hi', time: '8:00PM'}]
-      })}
-     else{
-        setRequestsList(prevRequest => {
-          return [...prevRequest, {ID: uid, personImg: picture, username: username, requestID: requestid}]
-        })
-      
-     }
     }).catch(picture = defultUserPic);
+    if(IsAccepted){
+      setChatList(prevChat => {
+        return [...prevChat, {ID: uid, personImg: picture, personName: fullName, lastMessage: 'Hi', time: '8:00PM'}]
+    })}
+   else{
+      setRequestsList(prevRequest => {
+        return [...prevRequest, {ID: uid, personImg: picture, username: username, requestID: requestid}]
+      })
+   }
   }
   return username;
 }

@@ -20,7 +20,7 @@ function AddFriend(props){
         async function searchUsers(){
             setSearchResult([]);
             if(username == '') return;
-            const getUsers = query(usersRef, orderBy('Username'), startAt(username), endAt(username+'\uf8ff') , limit(5));
+            const getUsers = query(usersRef, orderBy('UsernameSmallLetters'), startAt(username.toLowerCase()), endAt(username.toLowerCase()+'\uf8ff') , limit(5));
             const usersResult = await getDocs(getUsers);
             if(usersResult.docs.length == 0)
             {

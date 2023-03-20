@@ -27,8 +27,8 @@
 }
 
 .popupWrapper img{
-    max-width: 128px;
-    max-height: 128px;
+    max-width: 8rem;
+    max-height: 8rem;
 }
 
 .closeIcon{

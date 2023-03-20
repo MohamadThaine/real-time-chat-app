@@ -9,6 +9,7 @@ function App() {
     <>
     <Routes>
       <Route path="/" element={<IsSignedIn/>} />
+      <Route path="SignIn" element={<IsSignedIn/>} />
       <Route path="SignUp" element={<SignUp />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>

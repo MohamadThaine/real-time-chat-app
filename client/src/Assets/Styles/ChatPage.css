@@ -21,7 +21,7 @@ body{
     transform: translate(-50%, -50%);
     padding: 10px;
     border-radius: 12px;
-    padding-right: 50px;
+    padding-right: 3rem;
     background-color: #f8f8ff;
     height: 70rem;
     width: 110rem;
@@ -55,26 +55,23 @@ body{
 }
 
 .tools button img{
-    width: 50px;
-    height: 50px;
+    width: 3rem;
+    height: 3rem;
 }
 
 .friendRequestBT{
     position: relative;
-    width: 80px;
-    height: 80px;
-    margin-bottom: -6px;
 }
 
 .friendRequestBT > :first-child{
-    width: 62px;
-    height: 62px;
+    width: 3.7rem;
+    height: 3.7rem;
     margin-bottom: -6px;
 }
 
 .friendRequestBT > :last-child{
     position: absolute;
-    top: 0;
+    top: -10px;
     right: 0;
     background-color: #FF5C35;
     border: 1px solid black;
@@ -89,7 +86,6 @@ body{
 .profile{
     display: flex;
     align-items: center;
-    min-width: 15.4vw;
     border-bottom: 1px dotted black;
     padding-bottom: 10px;
     cursor: pointer;
@@ -109,8 +105,8 @@ body{
 }
 
 .chat img , .profile img{
-    width: 50px;
-    height: 50px;
+    width: 3rem;
+    height: 3rem;
     border: 2px solid black;
     border-radius: 90px;
 }
@@ -157,8 +153,8 @@ body{
 
 .personimg{
     margin-left: 3px;
-    width: 40px;
-    height: 40px;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 90px;
     border: 0.5px solid black;
 }
@@ -178,6 +174,7 @@ body{
     padding-left: 15px;
     padding-right: 15px;
     height: fit-content;
+    font-size: 1.2rem;
 }
 
 
@@ -218,8 +215,8 @@ body{
 
 .chatTool img{
     cursor: pointer;
-    width: 35px;
-    height: 35px;
+    width: 2.4rem;
+    height: 2.4rem;
 }
 
 .chatTool input{
