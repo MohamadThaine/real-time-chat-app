@@ -75,7 +75,6 @@ function AddFriend(props){
                         <p className='noResult'>{noResult}</p>
                     </div>
                 </div>
-                
             </div>
         </div>
     )
@@ -129,6 +128,10 @@ function User({user, socket}){
             cancelFriendRequest(requestID);
             setBtnText('Add Friend');
             setIsSending(true);
+            socket.current.emit("cancelRequest",{
+                Sender_ID:auth.currentUser.uid,
+                Recived_ID:user.ID
+            })
         }
     }
     console.log('id is: ' + requestID);

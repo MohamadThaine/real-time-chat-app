@@ -3,6 +3,7 @@ import close from '../Assets/Images/close.png';
 import { useState } from 'react';
 import Pagination from './Pagination';
 import '../Assets/Styles/FriendRequest.css'; 
+import acceptFriendRequest from '../api/put';
 
 const range = (start, end) => {
     return [...Array(end).keys()].map((element) => element + start)
@@ -23,9 +24,7 @@ function FriendRequest({requestsList, updateRequestsList, handleClose}){
     };
     function handleRequest(isAccepted , targetedRequestID, userID){
         if(isAccepted == 'y'){
-            fetch('http://localhost:3001/acceptRequest/' + targetedRequestID, {
-                method: 'PUT'
-            });
+            acceptFriendRequest(targetedRequestID, userID);
         }
         else{
             cancelFriendRequest(targetedRequestID, userID);

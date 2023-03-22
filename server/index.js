@@ -27,17 +27,26 @@ io.on("connection", (socket) => {
     socket.on("addUser", (userID) => {
         onlineUsers.set(userID, socket.id)
     });
+
     socket.on("sendRequest", (data) => {
         const sendUserSocket = onlineUsers.get(data.Recived_ID)
         if(sendUserSocket){
             socket.to(sendUserSocket).emit("requestRecived", data.Sender_ID)
         }
     });
+
+    socket.on("cancelRequest", (data) => {
+        const sendUserSocket = onlineUsers.get(data.Recived_ID)
+        if(sendUserSocket){
+            socket.to(sendUserSocket).emit("requestCanceled", data.Sender_ID)
+        }
+    })
 });
 
 app.get('/getFriends/:id', get.getUserFriends);
 app.get('/getRequest/:Sender_ID/:Recived_ID', get.getFriendsRequest);
 app.post('/addFriend', post.sendFriendRequest);
 app.put('/acceptRequest/:id', put.acceptRequest);
+app.put('/acceptRequestOrFriendByTheirID/:Sender_ID/:Recived_ID', put.acceptRequestByUsersID);
 app.delete('/deleteRequestOrFriend/:id', del.removeRequestOrFriend);
-app.delete('/deleteRequestOrFriendByTheirID/:Sender_ID/:Recived_ID', del.removeRequestOrFriendByTheirID)
+app.delete('/deleteRequestOrFriendByTheirID/:Sender_ID/:Recived_ID', del.removeRequestOrFriendByTheirID);

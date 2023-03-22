@@ -9,18 +9,22 @@
     bottom: 0;
     padding-top: 10px;
   }
+
   .pageItem {
     display: inline;
   }
+
   .pageItem:first-child .pageLink {
     margin-left: 0;
     border-bottom-left-radius: 0.25rem;
     border-top-left-radius: 0.25rem;
   }
+
   .pageItem:last-child .pageLink {
     border-bottom-right-radius: 0.25rem;
     border-top-right-radius: 0.25rem;
   }
+
   .pageItem.active .pageLink,
   .pageItem.active .pageLink:focus,
   .pageItem.active .pageLink:hover {
@@ -30,6 +34,7 @@
     background-color: #FF5C35;
     border-color: #FF5C35;
   }
+
   .pageItem.disabled .pageLink,
   .pageItem.disabled .pageLink:focus,
   .pageItem.disabled .pageLink:hover {
@@ -39,6 +44,7 @@
     background-color: #fff;
     border-color: #ddd;
   }
+
   .pageLink {
     position: relative;
     float: left;
@@ -50,6 +56,7 @@
     border: 1px solid #ddd;
     cursor: pointer;
   }
+  
   .pageLink:focus,
   .pageLink:hover {
     color: #FF5C35;

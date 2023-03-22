@@ -97,6 +97,12 @@ function ChatPage(){
             })
       },[])
 
+      useEffect(() => {
+        socket.current.on("requestCanceled",(userID) => {
+            setRequestsList(requestList.filter(request => request.ID != userID))
+        })
+      },[])
+
     const handlePopup = (setValue , value) => {
         setValue(!value)
     }

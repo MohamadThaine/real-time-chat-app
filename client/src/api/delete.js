@@ -11,7 +11,6 @@ function cancelFriendRequest(targetedRequestID, userID){
 }
 
 function cancelFriendRequestByUsersID(userID){
-    console.log("Sender_ID:" + userID + "\nRecived_ID:" + auth.currentUser.uid);
     fetch('http://localhost:3001/deleteRequestOrFriendByTheirID/' + userID + '/' + auth.currentUser.uid, {
         method: 'DELETE'
     });

@@ -73,16 +73,18 @@ export async function WithFacebook(){
 
 }
 
-export async function SignUpWithEmail(email , password, username , fullName , birthDate , gender, setSignUpError){
+export async function SignUpWithEmail(email , password, username , fullName , birthDate , gender, setSignUpError, setRegisterLoading){
   const checkExistingUsers = query(collection(db , 'users'), where('Username' , '==' , username));
   const exucuteQuery = await getDocs(checkExistingUsers);
   try{
     const username = exucuteQuery.docs[0].data().Username;
     setSignUpError('Account alreadly exist with this username')
+    setRegisterLoading(false);
     return;
   }catch(error){
     //Do nothing as this uername not used before;
   }
+  
   await createUserWithEmailAndPassword(auth, email, password)
   .then(() => {
     sendEmailVerification(auth.currentUser);
@@ -90,12 +92,14 @@ export async function SignUpWithEmail(email , password, username , fullName , bi
   })
   .catch(() => {
     setSignUpError('Account alreadly exist with this email!')
+    setRegisterLoading(false);
     return;
   });
   
 }
 
-export async function SignInWithEmail(username, password , setLoginStatus){
+export async function SignInWithEmail(username, password , setLoginStatus, setLoginLoading){
+  setLoginLoading(true);
   const getEmail = query(collection(db , 'users'), where('Username' , '==' , username));
   const exucuteQuery = await getDocs(getEmail);
   var email;
@@ -103,15 +107,16 @@ export async function SignInWithEmail(username, password , setLoginStatus){
     email = exucuteQuery.docs[0].data().Email
   }catch(error){
     setLoginStatus('Wrong Username');
+    setLoginLoading(false);
     return;
   }
   
   signInWithEmailAndPassword(auth, email, password)
-  .then(() => {
-  })
   .catch(() => {
     setLoginStatus('Wrong Password');
+    setLoginLoading(false);
   });
+  
 }
 
 async function addUserToDB(UID,email , username , fullName , birthDate , gender){
@@ -141,12 +146,13 @@ export async function getUserData(uid, setChatList, IsAccepted, setRequestsList,
   if(getInfo.exists){
     username = getInfo.data().Username;
     const fullName = getInfo.data().Name;
-    var picture;
     const picRef = ref(storage, 'usersPics/' + uid + '.png');
-    getDownloadURL(picRef)
-    .then((url) => {
-      picture = url;
-    }).catch(picture = defultUserPic);
+    var picture;
+    try{
+      picture = await getDownloadURL(picRef);
+    }catch(error){
+      picture = defultUserPic;
+    }
     if(IsAccepted){
       setChatList(prevChat => {
         return [...prevChat, {ID: uid, personImg: picture, personName: fullName, lastMessage: 'Hi', time: '8:00PM'}]

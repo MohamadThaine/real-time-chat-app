@@ -15,7 +15,7 @@ const removeRequestOrFriend = (request, response) => {
     });
 }
 
-const removeRequestOrFriendByTheirID = (request, response) => {
+const removeRequestOrFriendByTheirID = (request) => {
     const Sender_ID = request.params.Sender_ID;
     const Recived_ID = request.params.Recived_ID;
     db.pool.query('DELETE FROM user_friends WHERE ("Sender_ID" = $1) AND ("Recived_ID" = $2)' , [Sender_ID, Recived_ID],(error) => {

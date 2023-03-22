@@ -56,6 +56,11 @@
     background-color: #e45f3f;
 }
 
+.loginBtn:disabled{
+    cursor: not-allowed;
+    background-color: grey;
+}
+
 .loginImg{
     width: 35rem;
     height: 35rem;

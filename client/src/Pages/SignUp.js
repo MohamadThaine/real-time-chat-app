@@ -41,32 +41,38 @@ function SignUp() {
   const [emailMatching, setEmailMatching] = useState(false);
   const [passwordMatching, setPasswordMatching] = useState(false);
   const [gender, setGender] = useState('none');
-
+  const [registerLoading, setRegisterLoading] = useState(false)
   const getAge = birthDate => Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e+10)
 
   function checkData(){
+    setRegisterLoading(true);
     const validEmailRegex =  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if(email === '' || firstName === '' || lastName === '' || birthDate === '' || email === '' || password === '' || gender === 'none'){
       setSignUpError('Dont leave any required field empty!');
+      setRegisterLoading(false);
       return;
     }
     if(!emailMatching){
       setSignUpError('Email and re-enter email is not matching!');
+      setRegisterLoading(false);
       return;
     }
     if(!passwordMatching){
       setSignUpError('Password and re-enter password is not matching!');
+      setRegisterLoading(false);
       return;
     }
     if(!email.match(validEmailRegex)){
       setSignUpError('Email is not valid');
+      setRegisterLoading(false);
       return;
     }
     if(getAge(birthDate) < 13){
       setSignUpError('You must be older than 13!');
+      setRegisterLoading(false);
       return;
     }
-    SignUpWithEmail(email , password , username , firstName + " " + middleName + " " + lastName , birthDate , gender, setSignUpError);
+    SignUpWithEmail(email , password , username , firstName + " " + middleName + " " + lastName , birthDate , gender, setSignUpError, setRegisterLoading);
   }
 
   onkeyup = (e) => {
@@ -130,7 +136,7 @@ function SignUp() {
             </div>
             <div className="SignupBtns signUpElemnets">
               <p className='signupError'>{signUpError}</p>
-              <button className="SignUpBtn" onClick={checkData}>Sign Up</button>
+              <button className="SignUpBtn" onClick={checkData} disabled={registerLoading}>Sign Up</button>
             </div>
             <div className="outsideSignUp">
               <div className="line" />
