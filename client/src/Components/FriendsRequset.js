@@ -9,7 +9,7 @@ const range = (start, end) => {
     return [...Array(end).keys()].map((element) => element + start)
 };
 
-function FriendRequest({requestsList, updateRequestsList, handleClose}){
+function FriendRequest({requestsList, updateRequestsList, handleClose, updateChatList}){
     const [currentPage, setCurrentPage] = useState(1);
     const [pageRequests, setPageRequests] = useState(requestsList.slice(0 , 5));
     const pagesLength = range(1 ,  Math.ceil(requestsList.length / 5));
@@ -17,6 +17,13 @@ function FriendRequest({requestsList, updateRequestsList, handleClose}){
         const targetedRequestID = e.target.getAttribute("name");
         const userID = e.target.getAttribute("id");
         const ID = targetedRequestID.slice(0, -1);
+        const req = requestsList.filter(requset => requset.requestID == ID)[0];
+        const CurrentDate = new Date();
+        const timeNow = CurrentDate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+        const friendAdded = {ID: req.ID, personImg: req.personImg, username: req.username, personName: req.personName, lastMessage: 'Welcome your new friend!', time: timeNow, chatID: req.chatID}
+        updateChatList(prevChats => {
+            return [friendAdded , ...prevChats]
+        })
         updateRequestsList(requestsList.filter(requset => requset.requestID != ID));
         setPageRequests(pageRequests.filter(requset => requset.requestID != ID));
         const isAccepted = targetedRequestID.charAt(targetedRequestID.length - 1);
@@ -64,7 +71,6 @@ function RequestsList({requestsList , remove}){
 
 function Request({request , remove}){
     return(
-        
         <div className='person request'>
             <img src={request.personImg} />
             <p>{request.username}</p>

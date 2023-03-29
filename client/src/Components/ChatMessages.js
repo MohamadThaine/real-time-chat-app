@@ -4,7 +4,7 @@ import Message from './Message'
 function Chatmessages({messagesList}){
     return(
         messagesList.map(message =>  {
-            return <Message message={message}/>
+            return <Message key={message.id} message={message}/>
         })
     )
 }

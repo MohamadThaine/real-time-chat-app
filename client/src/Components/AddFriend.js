@@ -7,7 +7,7 @@ import { auth, db , app } from '../Helper/AccountsManagemnt';
 import { sendEmailVerification } from 'firebase/auth';
 import { query, collection, getDocs, orderBy, startAt, endAt , limit } from "firebase/firestore";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import sendFriendRequest from '../api/post';
+import {sendFriendRequest} from '../api/post';
 import cancelFriendRequest from '../api/delete';
 
 function AddFriend(props){

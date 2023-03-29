@@ -25,7 +25,19 @@ const getUserFriends = (request, response) => {
     })
   }
 
+  const getMessages = (request, respone) => {
+    const Chat_ID = request.params.Chat_ID;
+    db.pool.query('SELECT * FROM message WHERE ("ChatID" = $1) ORDER BY "Time" ASC ', [Chat_ID], (error, result) => {
+      if(error){
+        throw error;
+      }
+      respone.status(200).json(result.rows);
+    })
+  }
+
   module.exports = {
     getUserFriends,
-    getFriendsRequest
+    getFriendsRequest,
+    getMessages
   }
+

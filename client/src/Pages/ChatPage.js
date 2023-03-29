@@ -1,15 +1,12 @@
 import React, {  useEffect, useRef, useState } from 'react';
 import facebook from '../Assets/Images/facebook.png';
-import gif from '../Assets/Images/gif.png';
-import image from '../Assets/Images/image.png';
-import send from '../Assets/Images/send.png';
 import Hadi from '../Assets/Images/Hadi.png';
 import Logout from '../Assets/Images/logout.png';
 import ReportImg from '../Assets/Images/problem-report.png';
 import addFriend from '../Assets/Images/add-friend.png';
 import FriendRequests from '../Assets/Images/friend-request.png';
 import user from "../Assets/Images/user.png"
-import ChatMessages from '../Components/ChatMessages';
+//import ChatMessages from '../Components/ChatMessages';
 import ChatList from '../Components/ChatList';
 import Report from '../Components/Report';
 import Profile, { currentImg } from '../Components/Profile';
@@ -23,6 +20,7 @@ import Loading from '../Components/Loading';
 import FriendRequest from '../Components/FriendsRequset';
 import { uuidv4 } from '@firebase/util';
 import Notification from '../Components/Notification';
+import OpenedChat from '../Components/OpenedChat';
 
 function ChatPage(){
     const socket = useRef();
@@ -33,10 +31,8 @@ function ChatPage(){
     const [gender, setGender] = useState('');
     const [birthDate, setBirthDate] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-    const messageRef = useRef();
-    const [messagesList , setMessagesList] = useState([{recived: true , time:"8:00 PM" ,personImg:Hadi , content:"hello"}]);
-    const [chatList , setChatList] = useState([{ID: 12, personImg: Hadi , personName:'Ahmad Thaine' , lastMessage: 'HI' , time: '8:00 PM'} , 
-                                             {ID: 13, personImg: facebook , personName:'Facebook Thaine' , lastMessage: 'How are you' , time: '10:00 PM'}]);
+    //const [messagesList , setMessagesList] = useState([{recived: true , time:"8:00 PM" ,personImg:Hadi , content:"hello"}]);
+    const [chatList , setChatList] = useState([]);
     const [requestList, setRequestsList] = useState([]);
     const [isReportOpen , setIsReportOpen] = useState(false);
     const [isAddFriendOpen , setIsAddFriendOpen] = useState(false);
@@ -44,6 +40,7 @@ function ChatPage(){
     const [isFriendRequestOpen, setIsFriendRequestOpen] = useState(false);
     const [notificationRecived, setNotificationRecived] = useState(false);
     const [notificationText, setNotificationText] = useState('');
+    const [openedChat , setOpenedChat] = useState();
     const getProrfilePicture = () => {
         const storage = getStorage(app);
         const picRef = ref(storage, 'usersPics/' + auth.currentUser.uid + '.png');
@@ -75,11 +72,11 @@ function ChatPage(){
                 else{
                     ID = user.Sender_ID;
                 }
-                getUserData(ID, setChatList, user.isAccepted, setRequestsList, user.ID);
+                getUserData(ID, setChatList, user.isAccepted, setRequestsList, user.ID, user.ChatID)
             });
-        });
+        })
       }, [])  
-    
+      
       useEffect(() => {
         socket.current = io("http://localhost:3001")
         socket.current.emit("addUser", auth.currentUser.uid);
@@ -106,22 +103,6 @@ function ChatPage(){
     const handlePopup = (setValue , value) => {
         setValue(!value)
     }
-    function sendAMessage(){
-        const message = messageRef.current.value;
-        if(message === '') return;
-        var today = new Date();
-        var timeNow = today.getFullYear() + ':' + (today.getMonth() + 1) + ':' + today.getDate() + '  ' + today.getHours() + ':' + today.getMinutes();
-        setMessagesList(prevMessages => {
-            return [...prevMessages , {recived: false , time:timeNow, content: message}]
-        });
-        messageRef.current.value = null;
-    }
-
-    onkeyup = (e) => {
-        if(e.which === 13){
-            sendAMessage()
-        }
-    }
 
     return <div className="wrapper">
         <div className="chatsContener">
@@ -130,7 +111,7 @@ function ChatPage(){
                 <img src={profilePicture} alt='profile picture'/>
                 <p>{username}</p>
             </div>
-                <ChatList chatList={chatList} />
+                <ChatList chatList={chatList} setOpenedChat={setOpenedChat}/>
             <div className='tools'>
                 <button onClick={SignOut}>
                     <img src={Logout} title='Logout' alt='logout'/>
@@ -147,29 +128,13 @@ function ChatPage(){
                 </button>
             </div>
             </div>
-            <div className='openedChat'>
-                <div className='messages' id='chatmessages'>
-                    <ChatMessages messagesList = {messagesList} />
-             </div>
-             <div className='chatTool'>
-                <button>
-                    <img src={gif} alt='sent gif'/>
-                </button>
-                <button>
-                    <img src={image} alt='send img'/>
-                </button>
-                <input type='text' placeholder='Aa' autoComplete='off' ref= {messageRef}  />
-                <button onClick={() => sendAMessage()}>
-                    <img src={send} alt='send message' />
-                </button>
-             </div>
-            </div>
+            <OpenedChat chat={openedChat} />
         </div>
         {isReportOpen && <Report name={username} email={email} handleClose = {() => handlePopup(setIsReportOpen , isReportOpen)} />}
         { isAddFriendOpen && <AddFriend friendsList={chatList} handleClose = {() => handlePopup(setIsAddFriendOpen , isAddFriendOpen)} socket={socket}/>}
         {isProfileOpen && <Profile img={profilePicture} username={username} fullName={fullName} email={email} birthDate={birthDate} gender={gender}
                          handleClose = {() => handlePopup(setIsProfileOpen , isProfileOpen)} />}
-        {isFriendRequestOpen && <FriendRequest requestsList={requestList} updateRequestsList={setRequestsList} handleClose = {() => handlePopup(setIsFriendRequestOpen , isFriendRequestOpen)}/>}
+        {isFriendRequestOpen && <FriendRequest requestsList={requestList} updateRequestsList={setRequestsList} handleClose = {() => handlePopup(setIsFriendRequestOpen , isFriendRequestOpen)} updateChatList = {setChatList}/>}
         {notificationRecived && <Notification text={notificationText} />}
         {isLoading && <Loading />}
     </div>

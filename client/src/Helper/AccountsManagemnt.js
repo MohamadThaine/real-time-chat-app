@@ -140,7 +140,7 @@ export async function getCurrentUserInfo(setUsername, setEmail, setFullName, set
   setIsLoading(false);
 }
 
-export async function getUserData(uid, setChatList, IsAccepted, setRequestsList, requestid){
+export async function getUserData(uid, setChatList, IsAccepted, setRequestsList, requestid, chatID){
   var username = '';
   const getInfo = await getDoc(doc(db, 'users',uid));
   if(getInfo.exists){
@@ -155,11 +155,11 @@ export async function getUserData(uid, setChatList, IsAccepted, setRequestsList,
     }
     if(IsAccepted){
       setChatList(prevChat => {
-        return [...prevChat, {ID: uid, personImg: picture, personName: fullName, lastMessage: 'Hi', time: '8:00PM'}]
+        return [...prevChat, {ID: uid, personImg: picture, username: username,personName: fullName, lastMessage: 'Hi', time: '8:00PM', chatID:chatID}]
     })}
    else{
       setRequestsList(prevRequest => {
-        return [...prevRequest, {ID: uid, personImg: picture, username: username, requestID: requestid}]
+        return [...prevRequest, {ID: uid, personImg: picture, username: username, personName: fullName,requestID: requestid, chatID:chatID}]
       })
    }
   }

@@ -45,7 +45,9 @@ io.on("connection", (socket) => {
 
 app.get('/getFriends/:id', get.getUserFriends);
 app.get('/getRequest/:Sender_ID/:Recived_ID', get.getFriendsRequest);
+app.get('/getMessages/:Chat_ID', get.getMessages);
 app.post('/addFriend', post.sendFriendRequest);
+app.post('/sendMessage', post.sendMessage);
 app.put('/acceptRequest/:id', put.acceptRequest);
 app.put('/acceptRequestOrFriendByTheirID/:Sender_ID/:Recived_ID', put.acceptRequestByUsersID);
 app.delete('/deleteRequestOrFriend/:id', del.removeRequestOrFriend);

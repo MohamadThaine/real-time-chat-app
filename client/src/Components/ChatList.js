@@ -1,15 +1,15 @@
 import React from 'react'
-function ChatList({chatList}){
+function ChatList({chatList, setOpenedChat}){
     return(
         chatList.map(chat => {
-            return <Chat key={chat.ID} chat={chat} />
+            return <Chat key={chat.ID} chat={chat} setOpenedChat ={setOpenedChat} />
         })
     )
 }
 
-function Chat({chat}){
+function Chat({chat, setOpenedChat}){
     return(
-        <div className="chat">
+        <div className="chat" onClick={() => setOpenedChat(chat)}>
             <img src={chat.personImg} />
             <div className="LastMesssage">
             <p>{chat.personName}</p>

@@ -19,4 +19,19 @@ export function sendFriendRequest(Sender_ID, Recived_ID, setRequestID){
     .catch((error) => console.log(error));
 }
 
-export default sendFriendRequest;
+export function sendMessage(Chat_ID, Sender_ID, Message, Attached){
+    var data = {
+        'Chat_ID': Chat_ID,
+        'Sender_ID': Sender_ID,
+        'Message': Message,
+        'Attached': Attached
+    }
+    fetch("http://localhost:3001/sendMessage", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+    });
+}
