@@ -6,21 +6,30 @@ import ChatMessages from './ChatMessages';
 import { sendMessage } from '../api/post';
 import { auth } from '../Helper/AccountsManagemnt';
 import { getChatMessages } from '../api/get';
-
-function OpenedChat({chat})
+import { uuidv4 } from '@firebase/util';
+function OpenedChat({chat, socket, userImg})
 {
     
     const [messagesList , setMessagesList] = useState([]);
     const messageRef = useRef();
+    const scrollRef = useRef();
     function sendAMessage(){
         const message = messageRef.current.value;
         if(message === '') return;
         var today = new Date();
         var timeNow = today.getFullYear() + ':' + (today.getMonth() + 1) + ':' + today.getDate() + '  ' + today.getHours() + ':' + today.getMinutes();
         setMessagesList(prevMessages => {
-            return [...prevMessages , {recived: false , time:timeNow, content: message}]
+            return [...prevMessages , {id: uuidv4(),recived: false , time:timeNow, content: message}]
         });
         sendMessage(chat.chatID, auth.currentUser.uid, messageRef.current.value, '');
+        socket.current.emit('messageSent', {
+            Chat_ID: chat.chatID,
+            Sender_ID: auth.currentUser.uid,
+            User_ID: chat.ID,
+            UserPic: userImg,
+            Message: messageRef.current.value,
+            Time: timeNow
+        })
         messageRef.current.value = null;
     }
 
@@ -31,6 +40,7 @@ function OpenedChat({chat})
     }
 
     useEffect(() => {
+        setMessagesList([]);
         if(chat == undefined){
             return;
         }
@@ -39,6 +49,26 @@ function OpenedChat({chat})
         }
         getChatMessages(chat.chatID, chat.ID, chat.personImg,setMessagesList);
     },[chat])
+
+    useEffect(() => {
+        if(chat == undefined){
+            return;
+        }
+        socket.current.on('messageRecived', (message) => {
+            if(message.Sender_ID != chat.ID){
+                return;
+            }
+            setMessagesList(prevMessages => {
+                return [...prevMessages , {id: uuidv4(), recived: true, time: message.Time, content: message.Message, personImg: message.UserPic}]
+            })
+            
+        })
+    }, [chat])
+
+    useEffect(() => {
+        scrollRef.current?.scrollIntoView({ behavior: "auto" })
+    },[messagesList])
+
     if(chat == undefined){
         return <p className='noChatOpened'>No Chat Opened</p>;
     }
@@ -48,8 +78,9 @@ function OpenedChat({chat})
                 <img src={chat.personImg}/>
                 <p>{chat.personName}</p>
             </div>
-            <div className='messages' id='chatmessages'>
+            <div className='messages' id='chatmessages' >
                 <ChatMessages messagesList = {messagesList} />
+                <div ref={scrollRef}/>
             </div>
             <div className='chatTool'>
                 <button>

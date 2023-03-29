@@ -134,7 +134,6 @@ function User({user, socket}){
             })
         }
     }
-    console.log('id is: ' + requestID);
     return(
         <div className='person'>
             <img src={user.img} />

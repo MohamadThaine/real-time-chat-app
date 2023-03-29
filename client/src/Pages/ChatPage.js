@@ -128,7 +128,7 @@ function ChatPage(){
                 </button>
             </div>
             </div>
-            <OpenedChat chat={openedChat} />
+            <OpenedChat chat={openedChat} socket={socket} userImg={profilePicture} />
         </div>
         {isReportOpen && <Report name={username} email={email} handleClose = {() => handlePopup(setIsReportOpen , isReportOpen)} />}
         { isAddFriendOpen && <AddFriend friendsList={chatList} handleClose = {() => handlePopup(setIsAddFriendOpen , isAddFriendOpen)} socket={socket}/>}

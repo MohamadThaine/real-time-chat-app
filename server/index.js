@@ -41,6 +41,13 @@ io.on("connection", (socket) => {
             socket.to(sendUserSocket).emit("requestCanceled", data.Sender_ID)
         }
     })
+
+    socket.on('messageSent', (message) => {
+        const recivedUserSocket = onlineUsers.get(message.User_ID);
+        if(recivedUserSocket){
+            socket.to(recivedUserSocket).emit('messageRecived', message);
+        }
+    })
 });
 
 app.get('/getFriends/:id', get.getUserFriends);
