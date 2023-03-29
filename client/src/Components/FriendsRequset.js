@@ -65,7 +65,7 @@ function RequestsList({requestsList , remove}){
 function Request({request , remove}){
     return(
         
-        <div className='person'>
+        <div className='person request'>
             <img src={request.personImg} />
             <p>{request.username}</p>
             <button name={request.requestID + 'y'} id={request.ID} onClick={remove} style={{marginLeft: 70}}>Accept Request</button>

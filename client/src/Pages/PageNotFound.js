@@ -9,7 +9,7 @@ function PageNotFound(){
     return(
         <div className="wrapper">
             <div className='errorElements'>
-            <img src={error} />
+            <img src={error} alt='erorr page not found' />
                 <p className='erorrMessage'>
                     Page not found!
                 </p>

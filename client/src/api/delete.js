@@ -4,7 +4,7 @@ function cancelFriendRequest(targetedRequestID, userID){
     fetch('http://localhost:3001/deleteRequestOrFriend/' + targetedRequestID, {
         method: 'DELETE'
     }).then((response) => {
-        if(response.status == 400){
+        if(response.status === 400){
             cancelFriendRequestByUsersID(userID);
         }
     });

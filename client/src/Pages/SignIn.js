@@ -47,12 +47,12 @@ function SignIn() {
                     <div className="outsidesingin">
                         <p><span>or sign in with</span></p>
                         <div className="outsideSingInBtns">
-                            <button className="googleBtn" onClick={WithGoogle}><img  className="siteIcon"src={google} alt="google" /><span className="siteName">Google</span></button>
-                            <button className="fbBtn" onClick={WithFacebook}><img className="siteIcon" src={facebook} alt="facebook" /><span className="siteName">Facebook</span></button>
+                            <button className="googleBtn" onClick={WithGoogle}><img  className="siteIcon"src={google} alt="sign in with google" /><span className="siteName">Google</span></button>
+                            <button className="fbBtn" onClick={WithFacebook}><img className="siteIcon" src={facebook} alt="sign in with facebook" /><span className="siteName">Facebook</span></button>
                         </div>
                     </div>
                 </div>
-                <img src={loginImage} className="loginImg"/>    
+                <img src={loginImage} className="loginImg" alt='legin image'/>    
              </div>
        </div>
   );

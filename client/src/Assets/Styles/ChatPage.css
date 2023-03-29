@@ -24,22 +24,14 @@ body{
     padding-right: 3rem;
     background-color: #f8f8ff;
     height: 70rem;
-    width: 110rem;
+    max-width: 80vw;
     
-}
-
-.chatsContener::before{
-    content: '';
-    display: block;
-    height: 70rem;
-    width: 1px;
-    background: #000;
-    left: 22%;
-    position: absolute;
 }
 
 .chats{
     margin-left: -5px;
+    height: 100%;
+    border-right: 1px solid black;
 }
 
 .tools{

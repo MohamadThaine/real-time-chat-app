@@ -21,7 +21,7 @@ function SignUp() {
           }
         })
       });
-  }, [])
+  }, [navigate])
 
   const noNumbers = (e) => {
     const keyPressed = e.which;
@@ -88,7 +88,9 @@ function SignUp() {
         <div className="wrapper">
           <div className="elementContener signupContener">
             <div className="app">
-              <img src={appicon} />
+              <img 
+               src={appicon}
+               alt='app icon' />
               <p>App Name</p>
             </div>
             <div className="title">
@@ -118,13 +120,13 @@ function SignUp() {
                   {emailInput}
                 </div>
                 <div className="signUpElemnets">
-                  <input type="email" className="SignUpDataInput" placeholder="Re-enter E-mail" onBlur={e => {if(e.target.value == email) setEmailMatching(true) ; else setEmailMatching(false)}} />
+                  <input type="email" className="SignUpDataInput" placeholder="Re-enter E-mail" onBlur={e => {if(e.target.value === email) setEmailMatching(true) ; else setEmailMatching(false)}} />
                 </div>
                 <div className="signUpElemnets">
                   {passwordInput}
                 </div>
                 <div className="signUpElemnets">
-                  <input type="password" className="SignUpDataInput" placeholder="Re-enter Password" onBlur={e => {if(e.target.value == password) setPasswordMatching(true) ; else setPasswordMatching(false)}}/>
+                  <input type="password" className="SignUpDataInput" placeholder="Re-enter Password" onBlur={e => {if(e.target.value === password) setPasswordMatching(true) ; else setPasswordMatching(false)}}/>
                 </div>
                 <div className="sex signUpElemnets">
                   <p>Sex</p>
@@ -142,8 +144,8 @@ function SignUp() {
               <div className="line" />
               <div className="outsideSignUpBtns">
                 <p className="signUpTitle">Sign Up with</p>
-                <button className="googleBtn" onClick={WithGoogle}><img className="siteIcon" src={google} /><span className="siteName">Google</span></button>
-                <button className="fbBtn" onClick={WithFacebook}><img className="siteIcon" src={facebook} /><span className="siteName">Facebook</span></button>
+                <button className="googleBtn" onClick={WithGoogle}><img className="siteIcon" src={google} alt='sign up with google' /><span className="siteName">Google</span></button>
+                <button className="fbBtn" onClick={WithFacebook}><img className="siteIcon" src={facebook} alt='sign up with facebook' /><span className="siteName">Facebook</span></button>
               </div>
             </div>
           </div>

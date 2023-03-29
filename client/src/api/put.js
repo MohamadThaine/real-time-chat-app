@@ -4,7 +4,7 @@ function acceptFriendRequest(targetedRequestID, userID){
     fetch('http://localhost:3001/acceptRequest/' + targetedRequestID, {
         method: 'PUT'
     }).then((response) => {
-            if(response.status == 400){
+            if(response.status === 400){
                 acceptFriendRequestByUsersID(userID);
             }
         });

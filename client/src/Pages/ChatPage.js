@@ -66,9 +66,9 @@ function ChatPage(){
         .then((friendsList) => friendsList.json())
         .then((data) => {
             data.forEach((user) => {
-                if(user.isAccepted == false && user.Sender_ID == auth.currentUser.uid) { return; }
+                if(user.isAccepted === false && user.Sender_ID === auth.currentUser.uid) { return; }
                 var ID;
-                if(user.Sender_ID == auth.currentUser.uid)
+                if(user.Sender_ID === auth.currentUser.uid)
                 {
                     ID = user.Recived_ID;
                 }
@@ -99,7 +99,7 @@ function ChatPage(){
 
       useEffect(() => {
         socket.current.on("requestCanceled",(userID) => {
-            setRequestsList(requestList.filter(request => request.ID != userID))
+            setRequestsList(requestList.filter(request => request.ID !== userID))
         })
       },[])
 
@@ -108,7 +108,7 @@ function ChatPage(){
     }
     function sendAMessage(){
         const message = messageRef.current.value;
-        if(message == '') return;
+        if(message === '') return;
         var today = new Date();
         var timeNow = today.getFullYear() + ':' + (today.getMonth() + 1) + ':' + today.getDate() + '  ' + today.getHours() + ':' + today.getMinutes();
         setMessagesList(prevMessages => {
@@ -127,22 +127,22 @@ function ChatPage(){
         <div className="chatsContener">
             <div className='chats'>
             <div className='profile' onClick={() => handlePopup(setIsProfileOpen , isProfileOpen)}>
-                <img src={profilePicture} />
+                <img src={profilePicture} alt='profile picture'/>
                 <p>{username}</p>
             </div>
                 <ChatList chatList={chatList} />
             <div className='tools'>
                 <button onClick={SignOut}>
-                    <img src={Logout} title='Logout'/>
+                    <img src={Logout} title='Logout' alt='logout'/>
                 </button>
-                <button>
-                    <img src={ReportImg}  title='Report a problem' onClick={() => handlePopup(setIsReportOpen , isReportOpen)}/>
+                <button onClick={() => handlePopup(setIsReportOpen , isReportOpen)}>
+                    <img src={ReportImg}  title='Report a problem' alt='report a problem' />
                 </button>
-                <button>
-                    <img src={addFriend} title='Add Friend' onClick={() => handlePopup(setIsAddFriendOpen , isAddFriendOpen)} />
+                <button onClick={() => handlePopup(setIsAddFriendOpen , isAddFriendOpen)}>
+                    <img src={addFriend} title='Add Friend' alt='add friend' />
                 </button>
-                <button className='friendRequestBT'>
-                    <img src={FriendRequests} title='Friend Requests' onClick={() => handlePopup(setIsFriendRequestOpen, isFriendRequestOpen)}></img>
+                <button className='friendRequestBT' onClick={() => handlePopup(setIsFriendRequestOpen, isFriendRequestOpen)}>
+                    <img src={FriendRequests} title='Friend Requests' alt='friend requests'></img>
                     <p>{requestList.length}</p>
                 </button>
             </div>
@@ -153,14 +153,14 @@ function ChatPage(){
              </div>
              <div className='chatTool'>
                 <button>
-                    <img src={gif} />
+                    <img src={gif} alt='sent gif'/>
                 </button>
                 <button>
-                    <img src={image} />
+                    <img src={image} alt='send img'/>
                 </button>
                 <input type='text' placeholder='Aa' autoComplete='off' ref= {messageRef}  />
                 <button onClick={() => sendAMessage()}>
-                    <img src={send} />
+                    <img src={send} alt='send message' />
                 </button>
              </div>
             </div>
