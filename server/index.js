@@ -48,6 +48,14 @@ io.on("connection", (socket) => {
             socket.to(recivedUserSocket).emit('messageRecived', message);
         }
     })
+
+    socket.on('userTyping', (user) => {
+        const recivedUserSocket = onlineUsers.get(user.ID);
+        if(recivedUserSocket){
+            socket.to(recivedUserSocket).emit("userIsTyping", user);
+        }
+    })
+
 });
 
 app.get('/getFriends/:id', get.getUserFriends);

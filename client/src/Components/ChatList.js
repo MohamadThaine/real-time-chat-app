@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 function ChatList({chatList, setOpenedChat}){
     return(
         chatList.map(chat => {
@@ -8,12 +8,24 @@ function ChatList({chatList, setOpenedChat}){
 }
 
 function Chat({chat, setOpenedChat}){
+    const [personNameSplit, setPersonName] = useState('');
+    useEffect(() => {
+        const fullName = chat.personName.split(" ");
+        if(fullName.length < 3){
+            setPersonName(chat.personName);
+            return;
+        }
+        setPersonName(fullName[0] + ' ' + fullName[2])
+    },[])
     return(
         <div className="chat" onClick={() => setOpenedChat(chat)}>
             <img src={chat.personImg} />
-            <div className="LastMesssage">
-            <p>{chat.personName}</p>
-            <p>{chat.lastMessage} {chat.time}</p>
+            <div className="chatInfo">
+            <p>{personNameSplit}</p>
+            <div className='lastMessageDetalis'>
+                <p>{chat.lastMessage}</p>
+                <p>{chat.time}</p>
+            </div>
             </div>
         </div>
     )

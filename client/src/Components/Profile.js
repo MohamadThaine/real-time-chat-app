@@ -25,7 +25,7 @@ function Profile(props){
             }
             else{
                 SetImg(URL.createObjectURL(newImg));
-                ChangeProfilePicture(newImg , uploadStatus);
+                ChangeProfilePicture(newImg , setUploadStatus);
             }
             URL.revokeObjectURL(ImgUrl);
         };

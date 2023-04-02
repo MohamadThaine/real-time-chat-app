@@ -1,12 +1,9 @@
 import React, {  useEffect, useRef, useState } from 'react';
-import facebook from '../Assets/Images/facebook.png';
-import Hadi from '../Assets/Images/Hadi.png';
-import Logout from '../Assets/Images/logout.png';
-import ReportImg from '../Assets/Images/problem-report.png';
-import addFriend from '../Assets/Images/add-friend.png';
-import FriendRequests from '../Assets/Images/friend-request.png';
+import Logout from '../Assets/Images/logout.svg';
+import ReportImg from '../Assets/Images/problem-report.svg';
+import addFriend from '../Assets/Images/add-friend.svg';
+import FriendRequests from '../Assets/Images/friend-request.svg';
 import user from "../Assets/Images/user.png"
-//import ChatMessages from '../Components/ChatMessages';
 import ChatList from '../Components/ChatList';
 import Report from '../Components/Report';
 import Profile, { currentImg } from '../Components/Profile';
@@ -21,6 +18,7 @@ import FriendRequest from '../Components/FriendsRequset';
 import { uuidv4 } from '@firebase/util';
 import Notification from '../Components/Notification';
 import OpenedChat from '../Components/OpenedChat';
+import useInput from '../Helper/useInput';
 
 function ChatPage(){
     const socket = useRef();
@@ -31,7 +29,6 @@ function ChatPage(){
     const [gender, setGender] = useState('');
     const [birthDate, setBirthDate] = useState('');
     const [isLoading, setIsLoading] = useState(true);
-    //const [messagesList , setMessagesList] = useState([{recived: true , time:"8:00 PM" ,personImg:Hadi , content:"hello"}]);
     const [chatList , setChatList] = useState([]);
     const [requestList, setRequestsList] = useState([]);
     const [isReportOpen , setIsReportOpen] = useState(false);
@@ -41,6 +38,7 @@ function ChatPage(){
     const [notificationRecived, setNotificationRecived] = useState(false);
     const [notificationText, setNotificationText] = useState('');
     const [openedChat , setOpenedChat] = useState();
+    const [searchChat, searchChatInput] = useInput({type: 'text', placeholder: '🔍 | Type to search', className: 'searchChat'})
     const getProrfilePicture = () => {
         const storage = getStorage(app);
         const picRef = ref(storage, 'usersPics/' + auth.currentUser.uid + '.png');
@@ -107,26 +105,28 @@ function ChatPage(){
     return <div className="wrapper">
         <div className="chatsContener">
             <div className='chats'>
-            <div className='profile' onClick={() => handlePopup(setIsProfileOpen , isProfileOpen)}>
-                <img src={profilePicture} alt='profile picture'/>
-                <p>{username}</p>
-            </div>
-                <ChatList chatList={chatList} setOpenedChat={setOpenedChat}/>
-            <div className='tools'>
-                <button onClick={SignOut}>
-                    <img src={Logout} title='Logout' alt='logout'/>
-                </button>
-                <button onClick={() => handlePopup(setIsReportOpen , isReportOpen)}>
-                    <img src={ReportImg}  title='Report a problem' alt='report a problem' />
-                </button>
+            <div className='usertools' >
+                <img src={profilePicture} alt='profile picture'
+                     onClick={() => handlePopup(setIsProfileOpen , isProfileOpen)}/>
                 <button onClick={() => handlePopup(setIsAddFriendOpen , isAddFriendOpen)}>
                     <img src={addFriend} title='Add Friend' alt='add friend' />
                 </button>
                 <button className='friendRequestBT' onClick={() => handlePopup(setIsFriendRequestOpen, isFriendRequestOpen)}>
-                    <img src={FriendRequests} title='Friend Requests' alt='friend requests'></img>
+                    <img src={FriendRequests} title='Friend Requests' alt='friend requests' />
                     <p>{requestList.length}</p>
                 </button>
+                <button onClick={() => handlePopup(setIsReportOpen , isReportOpen)}>
+                    <img src={ReportImg}  title='Report a problem' alt='report a problem' />    
+                </button>
+                <button onClick={SignOut}>
+                    <img src={Logout} title='Logout' alt='logout' className='logoutImg'/>
+                </button>
             </div>
+                <div className='chatList'>
+                    {searchChatInput}
+                    <ChatList chatList={chatList} setOpenedChat={setOpenedChat}/>
+                </div>
+                
             </div>
             <OpenedChat chat={openedChat} socket={socket} userImg={profilePicture} />
         </div>

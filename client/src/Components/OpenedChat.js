@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import gif from '../Assets/Images/gif.png';
-import image from '../Assets/Images/image.png';
+import image from '../Assets/Images/image.svg';
+import attach from '../Assets/Images/attach.svg';
 import send from '../Assets/Images/send.png';
 import ChatMessages from './ChatMessages';
 import { sendMessage } from '../api/post';
@@ -11,6 +12,7 @@ function OpenedChat({chat, socket, userImg})
 {
     
     const [messagesList , setMessagesList] = useState([]);
+    const isTypingRef =useRef();
     const messageRef = useRef();
     const scrollRef = useRef();
     function sendAMessage(){
@@ -39,6 +41,13 @@ function OpenedChat({chat, socket, userImg})
         }
     }
 
+    const userTyping = () => {
+        socket.current.emit('userTyping',{
+            ID:chat.ID,
+            Sender_ID: auth.currentUser.uid
+        })
+    }
+
     useEffect(() => {
         setMessagesList([]);
         if(chat == undefined){
@@ -61,7 +70,7 @@ function OpenedChat({chat, socket, userImg})
             setMessagesList(prevMessages => {
                 return [...prevMessages , {id: uuidv4(), recived: true, time: message.Time, content: message.Message, personImg: message.UserPic}]
             })
-            
+            isTypingRef.current.className = 'typingInfo';
         })
     }, [chat])
 
@@ -69,33 +78,49 @@ function OpenedChat({chat, socket, userImg})
         scrollRef.current?.scrollIntoView({ behavior: "auto" })
     },[messagesList])
 
+    useEffect(() => {
+        if(chat == undefined){
+            return;
+        }
+        socket.current.on('userIsTyping', (user) => {
+            if(user.Sender_ID != chat.ID){
+                return;
+            }
+            isTypingRef.current.className = "typingInfo isTyping";
+            scrollRef.current?.scrollIntoView({ behavior: "auto" })
+            setTimeout(() => {
+                isTypingRef.current.className = 'typingInfo';
+            },2000)
+        })
+    },[chat])
+
     if(chat == undefined){
         return <p className='noChatOpened'>No Chat Opened</p>;
     }
     return(
         <div className='openedChat'>
-            <div className='openedChatUserInfo'>
-                <img src={chat.personImg}/>
-                <p>{chat.personName}</p>
-            </div>
-            <div className='messages' id='chatmessages' >
-                <ChatMessages messagesList = {messagesList} />
-                <div ref={scrollRef}/>
-            </div>
-            <div className='chatTool'>
-                <button>
-                    <img src={gif} alt='sent gif'/>
-                </button>
-                <button>
-                    <img src={image} alt='send img'/>
-                </button>
-                <input type='text' placeholder='Aa' autoComplete='off' ref= {messageRef}  />
-                <button onClick={() => sendAMessage()}>
-                    <img src={send} alt='send message' />
-                </button>
-             </div>
+                <div className='openedChatUserInfo'>
+                    <img src={chat.personImg}/>
+                    <p>{chat.personName}</p>
+                </div>
+                <div className='messages' id='chatmessages' >
+                    <ChatMessages messagesList = {messagesList} />
+                    <div ref={scrollRef}/>
+                    <div className='typingInfo' ref={isTypingRef}>
+                        <img className='typingUserImg' src={chat.personImg}></img>
+                        <p>Typing...</p>
+                    </div>
+                </div>
+                <div className='chatTool'>
+                    <button>
+                        <img src={attach} alt='send img'/>
+                    </button>
+                    <input type='text' placeholder='Type a message...' autoComplete='off' ref= {messageRef} onChange={userTyping} />
+                    <button onClick={() => sendAMessage()}>
+                        <img src={send} alt='send message' />
+                    </button>
+                </div>
         </div>
-    
     )
 }
 
